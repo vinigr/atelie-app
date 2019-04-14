@@ -15,7 +15,7 @@ class HomeScreen extends Component {
   
     render() {
         const { data } = this.props.state;
-        console.log(data);
+        // console.log(data);
       return (
         <View>
           <FlatList
@@ -23,7 +23,7 @@ class HomeScreen extends Component {
           keyExtractor={item => item.id}
           // extraData={this.props.state}
           renderItem={({ item }) => {
-            console.log(item)
+            // console.log(item)
             return (
               // <Text>{item.name}</Text>
               <TouchableOpacity onPress={() => this.props.navigation.navigate('Details',{

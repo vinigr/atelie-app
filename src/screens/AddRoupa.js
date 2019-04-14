@@ -5,8 +5,7 @@ import { bindActionCreators } from 'redux';
 import * as RoupasActions from '../store/actions/';
 
 import { Text, View, Button, TextInput, StyleSheet } from 'react-native';
-import { DetailsTitulo } from '../styles/styled';
-import { ScrollView, TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
 
 class AddRoupa extends Component {
@@ -19,31 +18,28 @@ class AddRoupa extends Component {
       super(props);
       
       this.state = {
+        isActive: null,
         roupas: [
-          { id: 1, nome: 'Calça Social', isActive: false},
-          { id: 2, nome: 'Calça Jeans', isActive: false},
-          { id: 3, nome: 'Calça Jeans', isActive: false},
-          { id: 4, nome: 'Camisa Social', isActive: false},
-          { id: 5, nome: 'Paletó', isActive: false},
+          { id: 1, nome: 'Calça Social'},
+          { id: 2, nome: 'Calça Jeans'},
+          { id: 3, nome: 'Camisa Polo'},
+          { id: 4, nome: 'Camisa Social'},
+          { id: 5, nome: 'Paletó'},
         ]
       }
+      this._onShowUnderlay = this._onShowUnderlay.bind(this);
     }
-    _onShowUnderlay() {
-      this.setState({ pressStatus: !this.state.pressStatus });
+    _onShowUnderlay(id) {
+      // console.log(id)
+      this.setState({ isActive: id, })
+
     }
 
     renderMenusItems = (roupa) => (
       <TouchableOpacity  
-        onPress={this._onShowUnderlay.bind(this)}
+        onPress={() => this._onShowUnderlay(roupa.id)}
         // underlayColor = {'#F9F9F9'}
-        style={{
-          backgroundColor: '#F9F9F9',
-          color: '#fff',
-          marginRight: 10,
-          borderRadius: 3,
-          padding: 8,
-          justifyContent: 'space-between'
-        }}
+        style={this.state.isActive === roupa.id ? styles.buttonPress : styles.button}
         key={`${roupa.nome}-${roupa.id}`}>
         {/* <Icon height={40} width={40} source={source} /> */}
         <Text>{roupa.nome}</Text>
@@ -62,11 +58,10 @@ class AddRoupa extends Component {
     //   this.setState(item);
     // }
 
-    render() {
-      const options =["Home","Savings","Car","GirlFriend"];
-      
+    render() {   
       const { addRoupa } = this.props;
-     
+      // console.log(this.state.roupas.isActive)
+      // console.log(this.state.roupas)
       return (
         <View style={{ flex: 1, backgroundColor: '#fff', }}>
             <View style={{ 
@@ -92,16 +87,6 @@ class AddRoupa extends Component {
                     borderRadius: 5,
                     width: '100%',
                 }}></TextInput>
-              {/* <Picker
-                selectedValue={this.state.language}
-                style={{height: 50, width: 150}}
-                onValueChange={(itemValue, itemIndex) =>
-                  this.setState({language: itemValue})
-                }>
-                {options.map((item, index) => {
-                  return (< Picker.Item label={item} value={index} key={index} />);
-                })} 
-              </Picker> */}
             
 
             </View>
@@ -113,12 +98,6 @@ class AddRoupa extends Component {
               >
                 {this.state.roupas.map(this.renderMenusItems)}
               </ScrollView>
-                {/* {roupasTipo.map((item, index) => {
-                  return (< Picker.Item label={item} value={item} key={index} />);
-                })}  */}
-                {/* < Picker.Item label='Teste' /> */}
-                
-              {/* { this.state.pressStatus == true ? <Text>Verdadeiro</Text> : <Text>Falso</Text>} */}
             </View>
             
             <View style={{ width: '97%', marginRight: 'auto', marginLeft: 'auto' }}>
@@ -140,8 +119,12 @@ class AddRoupa extends Component {
                 onSubmitEditing={this.handleTweet}
               />
             </View>
+            
+            {/* { 
+              this.state.roupas.filter(roupa => roupa.id === 1 && <Text>{roupa.nome}</Text> )
+            } */}
+
             <Button onPress={() => addRoupa(this.state)} title="Adicionar">Adicionar</Button>
-            {/* <Button onPress={() => console.log(this.props.data)} title="Ver">ver</Button> */}
         </View>
       );
     }
@@ -160,8 +143,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(AddRoupa);
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#fff',
-    color: '#fff',
+    backgroundColor: '#F9F9F9',
     marginRight: 10,
     borderRadius: 3,
     padding: 8,
@@ -170,7 +152,10 @@ const styles = StyleSheet.create({
   buttonPress: {
     backgroundColor: '#239FC5',
     color: '#fff',
-    
+    marginRight: 10,
+    borderRadius: 3,
+    padding: 8,
+    justifyContent: 'space-between',
   },
   activeTitle: {
     color: 'red',
