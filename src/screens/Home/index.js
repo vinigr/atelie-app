@@ -3,16 +3,12 @@ import { connect } from 'react-redux';
 
 import { Text, View, Button, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 
-import { StyledView, TextTitulo, TextPrazo } from '../styles/styled';
+import { StyledView, TextTitulo, TextPrazo } from '../../styles/styled';
+
+import styles from './styles';
 
 class HomeScreen extends Component {
-    static navigationOptions =
-    {
-        title: 'Home',
-    };
 
-    
-  
     render() {
         const { data } = this.props.state;
         // console.log(data);
@@ -28,23 +24,7 @@ class HomeScreen extends Component {
               // <Text>{item.name}</Text>
               <TouchableOpacity onPress={() => this.props.navigation.navigate('Details',{
                 item})}>
-                <View style={{ 
-                                backgroundColor: '#62B2F6',
-                                marginBottom: 10,
-                                padding: 10,
-                                flex: 1,
-                                flexDirection: 'row',
-                                justifyContent: 'flex-end',
-                                width: '97%',
-                                minHeight: 120,
-                                alignItems: 'center',
-                                marginLeft: 'auto',
-                                marginRight: 'auto',
-                                borderRadius: 5,
-                                // border-top-right-radius: 0;
-                                // border-bottom-left-radius: 0;
-                                // border-bottom-right-radius: 10;
-                                }}>
+                <View style={styles.roupaTouchable}>
                   <View style={{ flex: 1 }}>
                       <TextTitulo>{item.name}</TextTitulo>
                       <Text style={{ color: '#686868' }}>Ajustes pendentes</Text>
@@ -77,7 +57,7 @@ class HomeScreen extends Component {
             );
           }}
         />
-        <Button onPress={() => console.log(this.props.state.data.length)} title="Ver">ver</Button>
+        {/* <Button onPress={() => console.log(this.props.state.data.length)} title="Ver">ver</Button> */}
         </View>
       );
     }

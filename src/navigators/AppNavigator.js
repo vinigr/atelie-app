@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 
 import { StyleSheet, Text, View, Button, TouchableOpacity, Image } from 'react-native';
 
-import { createAppContainer, createMaterialTopTabNavigator, createDrawerNavigator, createStackNavigator } from "react-navigation";
+import { createAppContainer, DrawerItems, createDrawerNavigator, createStackNavigator } from "react-navigation";
 
 import AddIcon from '../components/AddIcon';
 
-import Home_Screen from '../screens/Home';
+import Home_Screen from '../screens/Home/';
 import Student_Screen from '../screens/Student';
 import DetailsScreen from '../screens/DetailsRoupas';
 import EntregasPendentesScreen from '../screens/EntregasPendentes';
@@ -65,71 +65,6 @@ class Settings_Screen extends Component {
     );
   }
 }
-
-
-
-// export const Tab_1 = createMaterialTopTabNavigator({
-//   First: {
-//     screen: Adicion,
-//   },
-//   Second: {
-//     screen: Settings_Screen,
-//   }
-// }, {
-//     tabBarPosition: 'top',
-
-//     swipeEnabled: true,
-
-//     tabBarOptions: {
-
-//       activeTintColor: '#fff',
-//       pressColor: '#004D40',
-//       inactiveTintColor: '#fff',
-//       style: {
-
-//         backgroundColor: '#00B8D4'
-
-//       },
-
-//       labelStyle: {
-//         fontSize: 16,
-//         fontWeight: '200'
-//       }
-//     }
-
-//   });
-
-// export const Tab_2 = createMaterialTopTabNavigator({
-//   Third: {
-//     screen: Student_Screen,
-//   },
-//   Forth: {
-//     screen: Details_Screen,
-//   }
-// }, {
-//     tabBarPosition: 'top',
-
-//     swipeEnabled: true,
-
-//     tabBarOptions: {
-
-//       activeTintColor: '#fff',
-//       pressColor: '#004D40',
-//       inactiveTintColor: '#fff',
-//       style: {
-
-//         backgroundColor: '#00B8D4'
-
-//       },
-
-//       labelStyle: {
-//         fontSize: 16,
-//         fontWeight: '200'
-//       }
-//     }
-
-//   });
-
 
 
 const TelaInicial = createStackNavigator({
@@ -242,7 +177,7 @@ const CadastroClientes = createStackNavigator({
 
 const MyDrawerNavigator = createDrawerNavigator({
   'Início': {
-    screen: CadastroClientes,
+    screen: TelaInicial,
   },
   'Cadastro de pedidos': {
     screen: Second_2_Tabs,
@@ -260,15 +195,10 @@ const MyDrawerNavigator = createDrawerNavigator({
     screen: Second_2_Tabs,
   },  
 }, {
-  navigationOptions:{
-      headerStyle:{
-          backgroundColor: 'red'
-      },
-      headerTintColor: '#111111',
-      headerTitleStyle: {
-          fontWeight: 'bold',
-      },
-  } 
+  // contentComponent:{
+  //     backgroundColor: 'red',
+      
+  // } 
 }
 
 );
