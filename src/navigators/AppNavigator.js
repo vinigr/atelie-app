@@ -11,6 +11,7 @@ import Student_Screen from '../screens/Student';
 import DetailsScreen from '../screens/DetailsRoupas';
 import EntregasPendentesScreen from '../screens/EntregasPendentes';
 import AddRoupaScreen from '../screens/AddRoupa';
+import CadastroClientesScreen from '../screens/CadastroClientes';
 
 
 class HamburgerIcon extends Component {
@@ -65,35 +66,11 @@ class Settings_Screen extends Component {
   }
 }
 
-class Details_Screen extends Component {
 
-  static navigationOptions =
-    {
-      title: 'Details Screen',
-
-    };
-
-  gotoNextActivity = () => {
-    this.props.navigation.navigate('Second');
-
-  }
-
-  render() {
-
-    return (
-
-      <View style={styles.MainContainer}>
-
-        <Text style={styles.text}>This is Details Screen Activity.</Text>
-
-      </View>
-    );
-  }
-}
 
 // export const Tab_1 = createMaterialTopTabNavigator({
 //   First: {
-//     screen: Home_Screen,
+//     screen: Adicion,
 //   },
 //   Second: {
 //     screen: Settings_Screen,
@@ -155,11 +132,11 @@ class Details_Screen extends Component {
 
 
 
-const First_2_Tabs = createStackNavigator({
+const TelaInicial = createStackNavigator({
   First: {
     screen: Home_Screen,
     navigationOptions: ({ navigation }) => ({
-      title: 'ROUPAS',
+      title: 'Roupas',
       headerTitleStyle: {
         alignSelf: 'center' ,
         textAlign: 'center',
@@ -167,7 +144,7 @@ const First_2_Tabs = createStackNavigator({
         // marginRight: 70
     },
       headerLeft: <HamburgerIcon navigationProps={navigation} />,
-      headerRight: <AddIcon navigationProps={navigation}/>,
+      // headerRight: <AddIcon navigationProps={navigation}/>,
       headerStyle: {
         backgroundColor: '#fff',
         elevation: 0, // remove shadow on Android
@@ -198,21 +175,7 @@ const First_2_Tabs = createStackNavigator({
     },
     headerTintColor: '#2699FB',
   })
-  },
-  AdicionarRoupa: {
-    screen: AddRoupaScreen,
-    navigationOptions: ({ navigation }) => ({
-      title: 'Adicionar roupa',
-    headerStyle: {
-      backgroundColor: '#E6F4FF',
-      elevation: 0, // remove shadow on Android
-      shadowOpacity: 0, // remove shadow on iOS
-      color: '#000',
-      // paddingTop: 5
-    },
-    headerTintColor: '#2699FB',
-  })
-  }   
+  } 
 });
 
 const Second_2_Tabs = createStackNavigator({
@@ -261,15 +224,31 @@ const Entregas = createStackNavigator({
   }
 });
 
+const CadastroClientes = createStackNavigator({
+  First: {
+    screen: CadastroClientesScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Cadastro de clientes',
+      headerLeft: <HamburgerIcon navigationProps={navigation} />,
+      headerStyle: {
+        backgroundColor: '#fff',
+        elevation: 0, // remove shadow on Android
+        shadowOpacity: 0, // remove shadow on iOS
+      },
+      headerTintColor: '#2699FB',
+    })
+  },
+});
+
 const MyDrawerNavigator = createDrawerNavigator({
   'Início': {
-    screen: First_2_Tabs,
+    screen: CadastroClientes,
   },
   'Cadastro de pedidos': {
     screen: Second_2_Tabs,
   },
   'Cadastro de clientes': {
-    screen: First_2_Tabs,
+    screen: CadastroClientes,
   },
   'Ajustes de roupas': {
     screen: Second_2_Tabs,

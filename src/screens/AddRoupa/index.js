@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import * as RoupasActions from '../store/actions/';
+import * as RoupasActions from '../../store/actions/';
 
 import { Text, View, Button, TextInput, StyleSheet } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
@@ -123,8 +123,14 @@ class AddRoupa extends Component {
             {/* { 
               this.state.roupas.filter(roupa => roupa.id === 1 && <Text>{roupa.nome}</Text> )
             } */}
-
-            <Button onPress={() => addRoupa(this.state)} title="Adicionar">Adicionar</Button>
+            {/* <View style={{ , height: 50, flex: 1,}}> */}
+              <TouchableOpacity 
+              style={styles.footer}
+                onPress={() => addRoupa(this.state)}>
+                <Text style={{fontSize: 20, fontWeight: 'bold'}}>ADICIONAR</Text>  
+              </TouchableOpacity>
+            {/* </View> */}
+           
         </View>
       );
     }
@@ -160,4 +166,29 @@ const styles = StyleSheet.create({
   activeTitle: {
     color: 'red',
   },
+  footer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    position:'absolute',
+    left: 0, right: 0, bottom: 0,
+    height: 50,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    width: '100%', 
+    backgroundColor: '#3a8fdc'
+  },
+  
+  buttonFixed: {
+    color: '#fff', 
+     
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignContent: 'center', 
+    // fontSize: 25,
+    height: 100, 
+    marginLeft: 'auto', 
+    marginRight: 'auto',
+    
+    // padding: 0,
+  }
 });
