@@ -12,7 +12,7 @@ import DetailsScreen from '../screens/DetailsRoupas';
 import EntregasPendentesScreen from '../screens/EntregasPendentes';
 import AddRoupaScreen from '../screens/AddRoupa';
 import CadastroClientesScreen from '../screens/CadastroClientes';
-
+import AddPedido from '../screens/AddPedido';
 
 class HamburgerIcon extends Component {
 
@@ -87,8 +87,8 @@ const TelaInicial = createStackNavigator({
         color: '#000',
         borderRadius: 10,
         marginTop: 5,
-        marginLeft: 'auto',
-        marginRight: 'auto',
+        // marginLeft: 'auto',
+        // marginRight: 'auto',
         marginBottom: 5,
         width: '97%',
         
@@ -113,11 +113,11 @@ const TelaInicial = createStackNavigator({
   } 
 });
 
-const Second_2_Tabs = createStackNavigator({
+const CadastroPedidos = createStackNavigator({
   First: {
-    screen: AddRoupaScreen,
+    screen: AddPedido,
     navigationOptions: ({ navigation }) => ({
-      title: 'Cadastro de roupas',
+      title: 'Cadastro de pedido',
       headerLeft: <HamburgerIcon navigationProps={navigation} />,
       headerStyle: {
         backgroundColor: '#fff',
@@ -175,24 +175,26 @@ const CadastroClientes = createStackNavigator({
   },
 });
 
+
+
 const MyDrawerNavigator = createDrawerNavigator({
   'Início': {
     screen: TelaInicial,
   },
   'Cadastro de pedidos': {
-    screen: Second_2_Tabs,
+    screen: CadastroPedidos,
   },
   'Cadastro de clientes': {
     screen: CadastroClientes,
   },
   'Ajustes de roupas': {
-    screen: Second_2_Tabs,
+    screen: CadastroPedidos,
   },
   'Entregas Pendentes': {
     screen: Entregas,
   },
   'Configurações': {
-    screen: Second_2_Tabs,
+    screen: CadastroPedidos,
   },  
 }, {
   // contentComponent:{
