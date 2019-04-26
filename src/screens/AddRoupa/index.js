@@ -80,6 +80,7 @@ class AddRoupa extends Component {
               <Text style={{ color: '#000', }}>CLIENTE</Text>
               <TextInput 
                 // value={this.state.roupaTipo.name}
+              value={this.props.name}
                 style={{ 
                     borderColor: '#3a8fdc',
                     borderStyle: 'solid',
@@ -88,7 +89,7 @@ class AddRoupa extends Component {
                     width: '100%',
                 }}></TextInput>
             
-
+                
             </View>
 
             <View style={{ width: '97%', marginRight: 'auto', marginLeft: 'auto' }}>

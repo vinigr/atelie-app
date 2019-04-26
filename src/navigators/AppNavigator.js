@@ -7,12 +7,13 @@ import { createAppContainer, DrawerItems, createDrawerNavigator, createStackNavi
 import AddIcon from '../components/AddIcon';
 
 import Home_Screen from '../screens/Home/';
-import Student_Screen from '../screens/Student';
 import DetailsScreen from '../screens/DetailsRoupas';
 import EntregasPendentesScreen from '../screens/EntregasPendentes';
 import AddRoupaScreen from '../screens/AddRoupa';
 import CadastroClientesScreen from '../screens/CadastroClientes';
 import AddPedido from '../screens/AddPedido';
+import PedidosScreen from '../screens/Pedidos';
+import PedidoRoupasScreen from '../screens/PedidoRoupas';
 
 class HamburgerIcon extends Component {
 
@@ -68,7 +69,7 @@ class Settings_Screen extends Component {
 
 
 const TelaInicial = createStackNavigator({
-  First: {
+  Home: {
     screen: Home_Screen,
     navigationOptions: ({ navigation }) => ({
       title: 'Roupas',
@@ -113,8 +114,51 @@ const TelaInicial = createStackNavigator({
   } 
 });
 
-const CadastroPedidos = createStackNavigator({
+const PedidosLista = createStackNavigator({
   First: {
+    screen: PedidosScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Pedidos',
+      headerLeft: <HamburgerIcon navigationProps={navigation} />,
+      headerStyle: {
+        backgroundColor: '#fff',
+        elevation: 0, // remove shadow on Android
+        shadowOpacity: 0, // remove shadow on iOS
+      },
+      headerTintColor: '#2699FB',
+    })
+  },
+  PedidoRoupas: {
+    screen: PedidoRoupasScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Pedido #2025',
+      headerLeft: <HamburgerIcon navigationProps={navigation} />,
+      headerStyle: {
+        backgroundColor: '#fff',
+        elevation: 0, // remove shadow on Android
+        shadowOpacity: 0, // remove shadow on iOS
+      },
+      headerTintColor: '#2699FB',
+    })
+  },
+  
+  AddRoupa: {
+    screen: AddRoupaScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Roupa',
+      // headerLeft: <HamburgerIcon navigationProps={navigation} />,
+      headerStyle: {
+        backgroundColor: '#fff',
+        elevation: 0, // remove shadow on Android
+        shadowOpacity: 0, // remove shadow on iOS
+      },
+      headerTintColor: '#2699FB',
+    })
+  }
+});
+
+const CadastroPedidos = createStackNavigator({
+  AdicionarPedido: {
     screen: AddPedido,
     navigationOptions: ({ navigation }) => ({
       title: 'Cadastro de pedido',
@@ -130,7 +174,7 @@ const CadastroPedidos = createStackNavigator({
 });
 
 const Entregas = createStackNavigator({
-  First: {
+  Entregas: {
     screen: EntregasPendentesScreen,
     navigationOptions: ({ navigation }) => ({
       title: 'Entregas Pendentes',
@@ -180,6 +224,9 @@ const CadastroClientes = createStackNavigator({
 const MyDrawerNavigator = createDrawerNavigator({
   'Início': {
     screen: TelaInicial,
+  },
+  'Pedidos': {
+    screen: PedidosLista
   },
   'Cadastro de pedidos': {
     screen: CadastroPedidos,
