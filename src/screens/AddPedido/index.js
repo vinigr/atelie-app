@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { Text, ScrollView, View, TextInput, TouchableOpacity, Picker, StyleSheet } from 'react-native'
 
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import AddRoupa from '../AddRoupa';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default class AddPedido extends Component {
     state = {
@@ -26,18 +25,16 @@ export default class AddPedido extends Component {
                 <Picker.Item label="Cliente" value="cliente" />
             </Picker>
             </View>
-            <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('AddRoupa')}>
+            <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('PedidoRoupas', {
+              itemId: Math.random,
+              otherParam: 'anything you want here',
+            })}>
                 <Text style={styles.text}>Cadastrar roupas</Text>
                 <Icon name='chevron-right' size={30} color="#fff" />
             </TouchableOpacity>
             </View>
         )
         
-        const View2 = (
-            <View style={{ alignItems: 'center', paddingBottom: 20 }}>
-              <Text style={{ color: '#cc2900', fontSize:30, fontWeight: 'bold' }}>Atenção!</Text>
-            </View>
-        )
 
         return (
             <ScrollView style={styles.container}>

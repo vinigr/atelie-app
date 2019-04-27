@@ -132,7 +132,7 @@ const PedidosLista = createStackNavigator({
     screen: PedidoRoupasScreen,
     navigationOptions: ({ navigation }) => ({
       title: 'Pedido #2025',
-      headerLeft: <HamburgerIcon navigationProps={navigation} />,
+      // headerLeft: <HamburgerIcon navigationProps={navigation} />,
       headerStyle: {
         backgroundColor: '#fff',
         elevation: 0, // remove shadow on Android
