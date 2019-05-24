@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 // import { StatusBar, AppRegistry } from 'react-native';
+import './src/ReactotronConfig';
 import { Provider } from 'react-redux';
 
 import AppNavigator from './src/navigators/AppNavigator';
