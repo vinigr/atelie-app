@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 
-import { StyleSheet, Text, View, Button, TouchableOpacity, Image } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { createAppContainer, DrawerItems, createDrawerNavigator, createStackNavigator } from "react-navigation";
 
-import AddIcon from '../components/AddIcon';
+// import AddIcon from '../components/AddIcon';
+import HamburgerIcon from '../components/HamburgerIcon';
 
 import Home_Screen from '../screens/Home/';
 import DetailsScreen from '../screens/DetailsRoupas';
@@ -14,58 +15,6 @@ import CadastroClientesScreen from '../screens/CadastroClientes';
 import AddPedido from '../screens/AddPedido';
 import PedidosScreen from '../screens/Pedidos';
 import PedidoRoupasScreen from '../screens/PedidoRoupas';
-
-class HamburgerIcon extends Component {
-
-  toggleDrawer = () => {
-
-    this.props.navigationProps.toggleDrawer();
-
-  }
-
-  render() {
-
-    return (
-      
-      <View style={{ flexDirection: 'row' }}>
-
-        <TouchableOpacity onPress={this.toggleDrawer.bind(this)} >
-
-          <Image
-            source={{ uri: 'https://reactnativecode.com/wp-content/uploads/2018/04/hamburger_icon.png' }}
-            style={{ width: 25, height: 25, marginLeft: 8, tintColor: '#2699FB' }}
-          />
-
-        </TouchableOpacity>
-
-      </View>
-
-    );
-
-
-  }
-}
-
-
-class Settings_Screen extends Component {
-
-  static navigationOptions =
-    {
-      title: 'Settings',
-    };
-
-  render() {
-
-    return (
-
-      <View style={styles.MainContainer}>
-
-        <Text style={styles.text}>This is Settings Screen Activity.</Text>
-
-      </View>
-    );
-  }
-}
 
 
 const TelaInicial = createStackNavigator({
