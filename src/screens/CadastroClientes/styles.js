@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
         width: '100%', 
         height: '100%', 
         flex: 1,
-        alignItems: 'center'
+        // justifyContent: 'center'
     },
     containerInput: {
         width: '97%',
@@ -27,7 +27,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#F8F8F8',
         borderWidth: 0.5,
         width: '60%',
-        height: 45
+        height: 45,
+        marginBottom: 10
+    },
+    button:{
+        width: '100%',
+        alignItems: 'center'
     },
     buttonFooter: {
         justifyContent: 'center',
