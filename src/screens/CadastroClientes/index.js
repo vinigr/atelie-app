@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native'
+import { Text, View, TextInput, TouchableOpacity, ScrollView, Alert, Picker } from 'react-native'
 
 import styles from './styles';
 import api from '../../services/api';
+
+import estados from '../../utils/estados';
 
 export default class CadastroClientes extends Component {
   state={
@@ -10,20 +12,24 @@ export default class CadastroClientes extends Component {
     endereco: '',
     cidade: '',
     telefone: '',
-    estado: '',
+    estado: 'BA',
     cpf: '',
     erro: {
-      cliente: false
+      cliente: false,
     },
     aguardando: false
   }
   
   handleSubmit = () => {
-    this.setState({ aguardando: true });
+    this.setState({ aguardando: true, erro: cliente === false });
     const { cliente, endereco, telefone, estado, cidade, cpf } = this.state;
+    if(cliente === '') {
+      this.setState({ erro: cliente === true, aguardando:false})
+      return
+    }
     api.post('/cliente/cadastrar', {
       cpf, 
-      nomecliente : cliente, 
+      nomecliente:cliente, 
       endereco, 
       estado, 
       cidade, 
@@ -54,6 +60,7 @@ export default class CadastroClientes extends Component {
     const { cliente, endereco, telefone, cidade, cpf, estado, aguardando } = this.state;
     return (
       <ScrollView style={styles.container}>
+        {console.tron.log(this.state)}
         <View style={styles.containerInput}>
             <Text>Cliente</Text>
             <TextInput 
@@ -80,20 +87,31 @@ export default class CadastroClientes extends Component {
               style={styles.input} 
               onChangeText={text => this.setState({ cidade: text })}
             />
-            <Text>Estado</Text>
-            <TextInput 
-              value={estado} 
-              style={styles.input} 
-              onChangeText={text => this.setState({ estado: text })}
-            />
-            <Text>Telefone</Text>
-            <TextInput 
-              value={telefone} 
-              style={styles.inputTelefone} 
-              onChangeText={text => this.setState({ telefone: text})}
-              keyboardType='numeric'
-              maxLength={11}
-            />
+            <View style={styles.estadoTelefone}>
+              <View style={styles.viewTelefone}>
+                <Text>Telefone</Text>
+                <TextInput 
+                  value={telefone} 
+                  style={styles.inputTelefone} 
+                  onChangeText={text => this.setState({ telefone: text })}
+                  keyboardType='numeric'
+                  maxLength={11}
+                />
+              </View>
+              <View style={styles.viewPicker}>
+                <Text>Estado</Text>
+                <Picker
+                  selectedValue={estado}
+                  onValueChange={(itemValue, itemIndex) =>
+                    this.setState({ estado: itemValue })}
+                >
+                  {estados.map((e, index) => (
+                    <Picker.Item key={index} label={e} value={e}>{e}</Picker.Item>
+                  ))}
+                  
+                </Picker>
+              </View>
+            </View>
         </View>
         <View style={styles.button}>
           <TouchableOpacity 
@@ -104,7 +122,6 @@ export default class CadastroClientes extends Component {
             <Text style={styles.textButton}>Cadastrar</Text>
           </TouchableOpacity>     
         </View>
-        
       </ScrollView>
     )
   }

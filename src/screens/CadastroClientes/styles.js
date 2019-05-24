@@ -7,6 +7,10 @@ const styles = StyleSheet.create({
         flex: 1,
         // justifyContent: 'center'
     },
+    text:{
+        fontFamily: 'OpenSans-Regular',
+        color: '#000'
+    },
     containerInput: {
         width: '97%',
         marginLeft: 'auto',
@@ -26,9 +30,20 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         backgroundColor: '#F8F8F8',
         borderWidth: 0.5,
-        width: '60%',
+        width: '100%',
         height: 45,
         marginBottom: 10
+    },
+    estadoTelefone: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    viewTelefone: {
+        width: '60%',
+    },
+    viewPicker: {
+        width:'30%'
     },
     button:{
         width: '100%',
@@ -44,7 +59,8 @@ const styles = StyleSheet.create({
     },
     textButton: {
         fontSize: 20,
-        color: '#fff'
+        color: '#fff',
+        fontFamily: 'OpenSans-Semibold',
     },
     inputErro: {
         borderColor: '#FF5555',

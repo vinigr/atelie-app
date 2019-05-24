@@ -1,21 +1,36 @@
-import React, { Component } from 'react'
-import { Text, ScrollView, View, TextInput, TouchableOpacity, Picker, StyleSheet } from 'react-native'
-import { Input } from 'react-native-autocomplete-input';
+import React, { Component, } from 'react'
+import { Text, ScrollView, View, TouchableOpacity, Picker, StyleSheet, Alert } from 'react-native'
+import AutoComplete  from 'react-native-autocomplete-input';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import api from '../../services/api';
 
 export default class AddPedido extends Component {
     state = {
         name: 'Teste',
-        view: 'desactive'
+        view: 'desactive',
+        clientes: [],
     }
     
+    async componentDidMount(){
+        await api.get('/cliente/listagem').then(res => {
+            console.tron.log(res.data);
+            this.setState({ clientes: res.data })
+        }).catch(err => {
+            console.tron.err(err);
+        })
+    }
 
-    render() { 
+
+    render() {   
         const View1 = (
             <View>
                 <View>
                 <Text>Cliente</Text>
-                <TextInput style={styles.input}/>
+                {/* { console.tron.log('Olá', this.state.clientes.nomecliente)} */}
+                <AutoComplete 
+                    data={this.state.clientes.nomecliente}
+                />
             </View>
             <View>
             <Text>Empresa</Text>
@@ -34,15 +49,18 @@ export default class AddPedido extends Component {
             </TouchableOpacity>
             </View>
         )
-        
-
+         
         return (
+            this.state.clientes === [] ?
             <ScrollView style={styles.container}>
                 {View1}
                 {/* {this.state.view === 'active' && <AddRoupa />} */}
                 
             </ScrollView>
-            
+            : <View>
+               <Text>Carregando</Text>
+               
+            </View>
         )
     }
 }
