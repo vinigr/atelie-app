@@ -1,5 +1,5 @@
 import React, { Component, } from 'react'
-import { Text, ScrollView, View, TouchableOpacity, Picker, StyleSheet, Alert } from 'react-native'
+import { Text, ScrollView, View, TouchableOpacity, Picker, StyleSheet, Alert, ActivityIndicator } from 'react-native'
 import AutoComplete  from 'react-native-autocomplete-input';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -10,12 +10,13 @@ export default class AddPedido extends Component {
         name: 'Teste',
         view: 'desactive',
         clientes: [],
+        loading: true
     }
     
     async componentDidMount(){
         await api.get('/cliente/listagem').then(res => {
             console.tron.log(res.data);
-            this.setState({ clientes: res.data })
+            this.setState({ clientes: res.data, loading: false })
         }).catch(err => {
             console.tron.err(err);
         })
@@ -51,16 +52,10 @@ export default class AddPedido extends Component {
         )
          
         return (
-            this.state.clientes === [] ?
             <ScrollView style={styles.container}>
-                {View1}
-                {/* {this.state.view === 'active' && <AddRoupa />} */}
-                
+                {this.state.loading === true ? <ActivityIndicator /> : View1}
+                {/* {View1}           */}
             </ScrollView>
-            : <View>
-               <Text>Carregando</Text>
-               
-            </View>
         )
     }
 }
