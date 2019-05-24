@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Text, ScrollView, View, TextInput, TouchableOpacity, Picker, StyleSheet } from 'react-native'
-
+import { Input } from 'react-native-autocomplete-input';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default class AddPedido extends Component {
