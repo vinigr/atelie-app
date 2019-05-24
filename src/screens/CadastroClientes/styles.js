@@ -4,7 +4,8 @@ const styles = StyleSheet.create({
     container: {
         width: '100%', 
         height: '100%', 
-        flex: 1
+        flex: 1,
+        alignItems: 'center'
     },
     containerInput: {
         width: '97%',
@@ -14,34 +15,41 @@ const styles = StyleSheet.create({
     input: {
         borderColor: '#3a8fdc',
         borderStyle: 'solid',
-        borderWidth: 2,
-        borderRadius: 5,
+        borderWidth: 0.5,
         width: '100%',
-        height: 40,
+        height: 45,
+        backgroundColor: '#F8F8F8',
         marginBottom: 10
     },
     inputTelefone: {
         borderColor: '#3a8fdc',
         borderStyle: 'solid',
-        borderWidth: 2,
-        borderRadius: 5,
+        backgroundColor: '#F8F8F8',
+        borderWidth: 0.5,
         width: '60%',
-        height: 40
+        height: 45
     },
     buttonFooter: {
         justifyContent: 'center',
         alignItems: 'center',
-        position:'absolute',
-        left: 0, right: 0, bottom: 0,
+        width: '60%',
         height: 50,
-        borderTopLeftRadius: 15,
-        borderTopRightRadius: 15,
-        width: '100%', 
-        backgroundColor: '#3a8fdc'
+        backgroundColor: '#3a8fdc',
+        marginTop: 10
     },
     textButton: {
-        fontSize: 20
-    }
+        fontSize: 20,
+        color: '#fff'
+    },
+    inputErro: {
+        borderColor: '#FF5555',
+        borderStyle: 'solid',
+        borderWidth: 0.5,
+        width: '100%',
+        height: 45,
+        backgroundColor: '#F8F8F8',
+        marginBottom: 10
+    },
 });
 
 export default styles;
