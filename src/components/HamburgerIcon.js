@@ -14,7 +14,7 @@ class HamburgerIcon extends Component {
             <Icon 
                 name='menu-open'
                 size={30}
-                style={{ marginLeft: 8, color: '#2699FB' }}
+                style={{ marginLeft: 8, color: '#fff' }}
             />
           </TouchableOpacity>
         </View> 
