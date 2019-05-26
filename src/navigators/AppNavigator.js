@@ -34,12 +34,9 @@ const TelaInicial = createStackNavigator({
         elevation: 0, // remove shadow on Android
         shadowOpacity: 0, // remove shadow on iOS
         color: '#000',
-        borderRadius: 10,
-        marginTop: 5,
         // marginLeft: 'auto',
         // marginRight: 'auto',
         marginBottom: 5,
-        width: '97%',
       },
     })
   },

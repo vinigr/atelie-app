@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Text, View } from 'react-native'
 import api from '../../services/api';
 
-export default class ListaAjusteCliente extends Component {
+export default class ListaAjusteEmpresa extends Component {
     
     state = {
         listaAjustes: []
