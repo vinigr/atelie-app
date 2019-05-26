@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { Text, View } from 'react-native';
 
-import { createAppContainer, DrawerItems, createDrawerNavigator, createStackNavigator } from "react-navigation";
+import { createAppContainer, DrawerItems, createDrawerNavigator, createStackNavigator, createMaterialTopTabNavigator } from "react-navigation";
 
 // import AddIcon from '../components/AddIcon';
 import HamburgerIcon from '../components/HamburgerIcon';
@@ -15,7 +15,8 @@ import CadastroClientesScreen from '../screens/CadastroClientes';
 import AddPedido from '../screens/AddPedido';
 import PedidosScreen from '../screens/Pedidos';
 import PedidoRoupasScreen from '../screens/PedidoRoupas';
-
+import ListaAjusteCliente from '../screens/ListaAjusteCliente';
+import ListaAjusteEmpresa from '../screens/ListaAjusteEmpresa';
 
 const TelaInicial = createStackNavigator({
   Home: {
@@ -26,12 +27,10 @@ const TelaInicial = createStackNavigator({
         alignSelf: 'center' ,
         textAlign: 'center',
         flex: 1,
-        // marginRight: 70
     },
       headerLeft: <HamburgerIcon navigationProps={navigation} />,
-      // headerRight: <AddIcon navigationProps={navigation}/>,
       headerStyle: {
-        backgroundColor: '#fff',
+        backgroundColor: '#2699FB',
         elevation: 0, // remove shadow on Android
         shadowOpacity: 0, // remove shadow on iOS
         color: '#000',
@@ -41,10 +40,7 @@ const TelaInicial = createStackNavigator({
         // marginRight: 'auto',
         marginBottom: 5,
         width: '97%',
-        
-        // paddingTop: 5
       },
-      // headerTintColor: '#2699FB',
     })
   },
   Details: {
@@ -58,7 +54,7 @@ const TelaInicial = createStackNavigator({
       color: '#000',
       // paddingTop: 5
     },
-    headerTintColor: '#2699FB',
+    headerTintColor: '#fff',
   })
   } 
 });
@@ -70,11 +66,11 @@ const PedidosLista = createStackNavigator({
       title: 'Pedidos',
       headerLeft: <HamburgerIcon navigationProps={navigation} />,
       headerStyle: {
-        backgroundColor: '#fff',
+        backgroundColor: '#2699FB',
         elevation: 0, // remove shadow on Android
         shadowOpacity: 0, // remove shadow on iOS
       },
-      headerTintColor: '#2699FB',
+      headerTintColor: '#fff',
     })
   },
   PedidoRoupas: {
@@ -83,11 +79,11 @@ const PedidosLista = createStackNavigator({
       title: 'Pedido #2025',
       // headerLeft: <HamburgerIcon navigationProps={navigation} />,
       headerStyle: {
-        backgroundColor: '#fff',
+        backgroundColor: '#2699FB',
         elevation: 0, // remove shadow on Android
         shadowOpacity: 0, // remove shadow on iOS
       },
-      headerTintColor: '#2699FB',
+      headerTintColor: '#fff',
     })
   },
   
@@ -97,11 +93,11 @@ const PedidosLista = createStackNavigator({
       title: 'Roupa',
       // headerLeft: <HamburgerIcon navigationProps={navigation} />,
       headerStyle: {
-        backgroundColor: '#fff',
+        backgroundColor: '#2699FB',
         elevation: 0, // remove shadow on Android
         shadowOpacity: 0, // remove shadow on iOS
       },
-      headerTintColor: '#2699FB',
+      headerTintColor: '#fff',
     })
   }
 });
@@ -113,11 +109,11 @@ const CadastroPedidos = createStackNavigator({
       title: 'Cadastro de pedido',
       headerLeft: <HamburgerIcon navigationProps={navigation} />,
       headerStyle: {
-        backgroundColor: '#fff',
+        backgroundColor: '#2699FB',
         elevation: 0, // remove shadow on Android
         shadowOpacity: 0, // remove shadow on iOS
       },
-      headerTintColor: '#2699FB',
+      headerTintColor: '#fff',
     })
   },
 });
@@ -129,11 +125,11 @@ const Entregas = createStackNavigator({
       title: 'Entregas Pendentes',
       headerLeft: <HamburgerIcon navigationProps={navigation} />,
       headerStyle: {
-        backgroundColor: '#fff',
-        elevation: 0, // remove shadow on Android
-        shadowOpacity: 0, // remove shadow on iOS
+        backgroundColor: '#2699FB',
+        elevation: 0, 
+        shadowOpacity: 0, 
       },
-      headerTintColor: '#2699FB',
+      headerTintColor: '#fff',
     })
   },
   Details: {
@@ -142,12 +138,12 @@ const Entregas = createStackNavigator({
       title: 'Detalhes da roupa',
     headerStyle: {
       backgroundColor: '#E6F4FF',
-      elevation: 0, // remove shadow on Android
-      shadowOpacity: 0, // remove shadow on iOS
-      color: '#000',
+      elevation: 0,
+      shadowOpacity: 0,
+      color: '#fff',
       // paddingTop: 5
     },
-    headerTintColor: '#2699FB',
+    headerTintColor: '#fff',
   })
   }
 });
@@ -159,16 +155,55 @@ const CadastroClientes = createStackNavigator({
       title: 'Cadastro de clientes',
       headerLeft: <HamburgerIcon navigationProps={navigation} />,
       headerStyle: {
-        backgroundColor: '#fff',
-        elevation: 0, // remove shadow on Android
-        shadowOpacity: 0, // remove shadow on iOS
+        backgroundColor: '#2699FB',
+        elevation: 0,
+        shadowOpacity: 0,
       },
-      headerTintColor: '#2699FB',
+      headerTintColor: '#fff',
     })
   },
 });
 
+const Ajustes = createMaterialTopTabNavigator({
+  Cliente: {
+    screen: ListaAjusteCliente,
+  },
+  Empresa: {
+    screen: ListaAjusteEmpresa,
+  }
+}, {
+    tabBarPosition: 'top',
+    swipeEnabled: true,
+    tabBarOptions: {
+      activeTintColor: '#fff',
+      pressColor: '#0B5EA7',
+      inactiveTintColor: '#CACACA',
+      style: {
+        backgroundColor: '#2699FB'
+      },
+      labelStyle: {
+        fontSize: 16,
+        fontWeight: '200'
+      },
+      headerTintColor: '#fff',
+    }
+});
 
+const ListaAjustes = createStackNavigator({
+  First: {
+    screen: Ajustes,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Ajustes',
+      headerLeft: <HamburgerIcon navigationProps={navigation} />,
+      headerStyle: {
+        backgroundColor: '#2699FB',
+        elevation: 0,
+        shadowOpacity: 0,
+      },
+      headerTintColor: '#fff',
+    })
+  },
+});
 
 const MyDrawerNavigator = createDrawerNavigator({
   'Início': {
@@ -184,7 +219,7 @@ const MyDrawerNavigator = createDrawerNavigator({
     screen: CadastroClientes,
   },
   'Ajustes de roupas': {
-    screen: CadastroPedidos,
+    screen: ListaAjustes, 
   },
   'Entregas Pendentes': {
     screen: Entregas,
