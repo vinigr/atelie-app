@@ -1,5 +1,7 @@
 import React, { Component, } from 'react'
-import { Text, ScrollView, View, TouchableOpacity, Picker, StyleSheet, Alert, ActivityIndicator } from 'react-native'
+import { Text, TextInput, ScrollView, View, TouchableOpacity, Picker, StyleSheet, DatePickerAndroid, ActivityIndicator } from 'react-native'
+
+import { DatePicker } from 'native-base';
 import AutoComplete  from 'react-native-autocomplete-input';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -7,39 +9,63 @@ import api from '../../services/api';
 
 export default class AddPedido extends Component {
     state = {
-        name: 'Teste',
-        view: 'desactive',
+        cliente: '',
+        datarecebimento: '',
         clientes: [],
-        loading: true
+        loading: true,
+        empresas: [],
+        erro: ''
     }
     
-    async componentDidMount(){
-        await api.get('/cliente/listagem').then(res => {
-            console.tron.log(res.data);
-            this.setState({ clientes: res.data, loading: false })
-        }).catch(err => {
-            console.tron.err(err);
-        })
+    componentDidMount(){
+        this.buscaBanco();
     }
 
+    buscaBanco = async() => {
+        try{
+            const res = await api.get('/cliente/listagem');
+            const resp = await api.get('/loja/listagem');
+            this.setState({ clientes: res.data, empresas: resp.data, loading: false })
+        } catch(err) {
+            this.setState({ erro: err.data.error , loading: false })
+        }
+    } 
 
-    render() {   
+
+    render() {  
         const View1 = (
             <View>
                 <View>
-                <Text>Cliente</Text>
-                {/* { console.tron.log('Olá', this.state.clientes.nomecliente)} */}
-                <AutoComplete 
-                    data={this.state.clientes.nomecliente}
-                />
-            </View>
+                    <Text>Cliente</Text>
+                    {/* { console.tron.log('Olá', this.state.clientes.nomecliente)} */}
+                    <AutoComplete 
+                        data={this.state.clientes.nomecliente}
+                    />
+                </View>
             <View>
             <Text>Empresa</Text>
             <Picker>
-                <Picker.Item label="Empresa 1" value="empresa1" />
-                <Picker.Item label="Empresa 2" value="empresa2" />
-                <Picker.Item label="Cliente" value="cliente" />
+                { this.state.empresas.map(empresa => ( 
+                    <Picker.Item key={empresa.idloja} label={empresa.nomeloja} value={empresa.nomeloja} />
+                ))}
             </Picker>
+            </View>
+            <View>
+                <Text>Data de entrada</Text>
+                <DatePicker
+                    defaultDate={new Date()}
+                    minimumDate={new Date(2018, 1, 1)}
+                    maximumDate={new Date(2018, 12, 31)}
+                    locale={"en"}
+                    timeZoneOffsetInMinutes={undefined}
+                    modalTransparent={false}
+                    animationType={"fade"}
+                    androidMode={"default"}
+                    textStyle={{ color: "#000" }}
+                    placeHolderTextStyle={{ color: "#000" }}
+                    onDateChange={date => this.setState({ datarecebimento: date })}
+                    disabled={false}
+                />
             </View>
             <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('PedidoRoupas', {
               itemId: Math.random,
@@ -53,8 +79,8 @@ export default class AddPedido extends Component {
          
         return (
             <ScrollView style={styles.container}>
-                {this.state.loading === true ? <ActivityIndicator /> : View1}
-                {/* {View1}           */}
+                {this.state.erro !== '' && <Text>{this.state.erro}</Text>}
+                {this.state.loading ? <ActivityIndicator /> : View1}
             </ScrollView>
         )
     }
