@@ -41,7 +41,6 @@ export const TextTitulo = styled.Text`
   margin-bottom: 10;
   font-size: 16; 
   flex: 1;
-  text-decoration: underline;
 `
 
 export const TextPrazo = styled.Text`
