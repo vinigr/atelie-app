@@ -3,8 +3,15 @@ import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default class PedidoRoupas extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: `Pedido #${navigation.getParam('itemId')}`,
+    };
+  };
+
   componentDidMount(){
     const { navigation } = this.props;
+    
     const itemId = navigation.getParam('itemId', 'NO-ID');
     if(itemId !== 'NO-ID') {
       this.props.navigation.navigate('AddRoupa')
