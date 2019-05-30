@@ -64,8 +64,9 @@ const PedidosLista = createStackNavigator({
       headerLeft: <HamburgerIcon navigationProps={navigation} />,
       headerStyle: {
         backgroundColor: '#2699FB',
-        elevation: 0, // remove shadow on Android
-        shadowOpacity: 0, // remove shadow on iOS
+        elevation: 0,
+        shadowOpacity: 0,
+        marginBottom: 5
       },
       headerTintColor: '#fff',
     })
@@ -73,15 +74,13 @@ const PedidosLista = createStackNavigator({
   PedidoRoupas: {
     screen: PedidoRoupasScreen,
     navigationOptions: ({ navigation }) => ({
-      title: 'Pedido #2025',
-      // headerLeft: <HamburgerIcon navigationProps={navigation} />,
       headerStyle: {
         backgroundColor: '#2699FB',
         elevation: 0, // remove shadow on Android
         shadowOpacity: 0, // remove shadow on iOS
       },
       headerTintColor: '#fff',
-    })
+    })  
   },
   
   AddRoupa: {
@@ -224,13 +223,7 @@ const MyDrawerNavigator = createDrawerNavigator({
   'Configurações': {
     screen: CadastroPedidos,
   },  
-}, {
-  // contentComponent:{
-  //     backgroundColor: 'red',
-      
-  // } 
 }
-
 );
 
 export default createAppContainer(MyDrawerNavigator);
