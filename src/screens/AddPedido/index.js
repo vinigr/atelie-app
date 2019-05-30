@@ -1,7 +1,7 @@
 import React, { Component, } from 'react'
 import { Text, TextInput, ScrollView, View, TouchableOpacity, Picker, StyleSheet, DatePickerAndroid, ActivityIndicator } from 'react-native'
 
-import { DatePicker } from 'native-base';
+import { DatePicker, Toast } from 'native-base';
 import AutoComplete  from 'react-native-autocomplete-input';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -9,12 +9,13 @@ import api from '../../services/api';
 
 export default class AddPedido extends Component {
     state = {
-        cliente: '',
         datarecebimento: '',
+        idloja: null,
+        idcliente: null,
         clientes: [],
         loading: true,
         empresas: [],
-        erro: ''
+        erro: '',
     }
     
     componentDidMount(){
@@ -31,6 +32,39 @@ export default class AddPedido extends Component {
         }
     } 
 
+    cadastrarPedido = async() => {
+        const { idcliente , idloja, datarecebimento } = this.state;
+        if(!idcliente, !idloja, !datarecebimento) return
+        const data = new Date(datarecebimento).getTime()
+
+
+        this.setState({ loading: true })
+
+        
+        try{
+            await api.post('/pedido/cadastrar', {
+                idcliente,
+                idloja,
+                datarecebimento: `${data}`
+            }).then(res => {
+                this.setState({ loading: false })
+                this.props.navigation.navigate('PedidoRoupas', { itemId: res.data[0].idpedido })
+            });
+            
+            
+        } catch(err) {
+            this.setState({ erro: err.data.error , loading: false })
+            console.log('err' + err)
+        }
+
+    }
+
+    
+    // renderListCliente = () => {
+    //     clientes.filter(cliente => {
+    //         return cliente.nomecliente.
+    //     })
+    // }
 
     render() {  
         const View1 = (
@@ -38,15 +72,33 @@ export default class AddPedido extends Component {
                 <View>
                     <Text>Cliente</Text>
                     {/* { console.tron.log('Olá', this.state.clientes.nomecliente)} */}
-                    <AutoComplete 
-                        data={this.state.clientes.nomecliente}
-                    />
+                    <Picker
+                        selectedValue={this.state.idcliente}
+                        onValueChange={itemValue => {
+                            console.tron.log(this.state.idcliente)
+                            this.setState({idcliente: itemValue})
+                        }
+                            
+                        }
+                    >
+                        { this.state.clientes.map(cliente => ( 
+                            <Picker.Item key={cliente.idcliente} label={cliente.nomecliente} value={cliente.idcliente} />
+                        ))}
+                    </Picker>
+                    
                 </View>
             <View>
             <Text>Empresa</Text>
-            <Picker>
+            <Picker
+                selectedValue={this.state.idloja}
+                onValueChange={itemValue => {
+                    this.setState({ idloja: itemValue })
+                }
+                    
+                }
+            >
                 { this.state.empresas.map(empresa => ( 
-                    <Picker.Item key={empresa.idloja} label={empresa.nomeloja} value={empresa.nomeloja} />
+                    <Picker.Item key={empresa.idloja} label={empresa.nomeloja} value={empresa.idloja} />
                 ))}
             </Picker>
             </View>
@@ -54,8 +106,8 @@ export default class AddPedido extends Component {
                 <Text>Data de entrada</Text>
                 <DatePicker
                     defaultDate={new Date()}
-                    minimumDate={new Date(2018, 1, 1)}
-                    maximumDate={new Date(2018, 12, 31)}
+                    minimumDate={new Date(2019, 1, 1)}
+                    // maximumDate={new Date(2018, 12, 31)}
                     locale={"en"}
                     timeZoneOffsetInMinutes={undefined}
                     modalTransparent={false}
@@ -63,14 +115,16 @@ export default class AddPedido extends Component {
                     androidMode={"default"}
                     textStyle={{ color: "#000" }}
                     placeHolderTextStyle={{ color: "#000" }}
-                    onDateChange={date => this.setState({ datarecebimento: date })}
+                    onDateChange={date => {
+                        console.tron.log(this.state.datarecebimento)
+                        this.setState({ datarecebimento: date })}
+                        
+                    }
                     disabled={false}
+                    
                 />
             </View>
-            <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('PedidoRoupas', {
-              itemId: Math.random,
-              otherParam: 'anything you want here',
-            })}>
+            <TouchableOpacity style={styles.button} onPress={() => this.cadastrarPedido()}>
                 <Text style={styles.text}>Cadastrar roupas</Text>
                 <Icon name='chevron-right' size={30} color="#fff" />
             </TouchableOpacity>
@@ -121,5 +175,25 @@ const styles = StyleSheet.create({
         marginLeft: 'auto',
         marginRight: 'auto',
         flexDirection: 'row'
-    }
+    },
+    autocompleteContainer: {
+        flex: 1,
+        left: 0,
+        position: 'absolute',
+        right: 0,
+        top: 18,
+        zIndex: 1
+      }
 })
+
+{/* <View style={styles.autocompleteContainer}>
+                        <AutoComplete 
+                        data={clientes.nomecliente}
+                        defaultValue={query}
+                        onChangeText={text => this.setState({ query: text })}
+                        renderItem={({ item, i }) => (
+                          <TouchableOpacity onPress={() => this.setState({ query: item })}>
+                            <Text>{item}</Text>
+                          </TouchableOpacity>
+                        )}/>
+                    </View> */}
