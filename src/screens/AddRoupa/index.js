@@ -1,46 +1,45 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { Text, View, Button, TextInput, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 
-import * as RoupasActions from '../../store/actions/';
-
-import { Text, View, Button, TextInput, StyleSheet } from 'react-native';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-
+import api from '../../services/api';
 
 class AddRoupa extends Component {
-    static navigationOptions =
-    {
-        title: 'Adicionar roupa',
-    };
-    
     constructor(props){
       super(props);
       
       this.state = {
+        loading: true,
         isActive: null,
-        roupas: [
-          { id: 1, nome: 'Calça Social'},
-          { id: 2, nome: 'Calça Jeans'},
-          { id: 3, nome: 'Camisa Polo'},
-          { id: 4, nome: 'Camisa Social'},
-          { id: 5, nome: 'Paletó'},
-        ]
+        roupas: []
       }
       this._onShowUnderlay = this._onShowUnderlay.bind(this);
     }
+
+    componentDidMount(){
+      this.buscaBanco();
+    }
+
+    buscaBanco = async() => {
+      try{
+        const res = await api.get('tipoRoupa/listagem')
+        this.setState({ roupas: res.data, loading: false })
+      } catch(err){
+        this.setState({ erro: err.data.error , loading: false })
+      }
+      
+    }
+
     _onShowUnderlay(id) {
-      // console.log(id)
       this.setState({ isActive: id, })
 
     }
 
     renderMenusItems = (roupa) => (
       <TouchableOpacity  
-        onPress={() => this._onShowUnderlay(roupa.id)}
+        onPress={() => this._onShowUnderlay(roupa.idtiporoupa)}
         // underlayColor = {'#F9F9F9'}
-        style={this.state.isActive === roupa.id ? styles.buttonPress : styles.button}
-        key={`${roupa.nome}-${roupa.id}`}>
+        style={this.state.isActive === roupa.idtiporoupa ? styles.buttonPress : styles.button}
+        key={`${roupa.nomeroupa}-${roupa.idtiporoupa}`}>
         {/* <Icon height={40} width={40} source={source} /> */}
         <Text>{roupa.nome}</Text>
       </TouchableOpacity>
@@ -63,7 +62,9 @@ class AddRoupa extends Component {
       // console.log(this.state.roupas.isActive)
       // console.log(this.state.roupas)
       return (
-        <View style={{ flex: 1, backgroundColor: '#fff', }}>
+        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+          { this.state.loading ? ActivityIndicator : 
+          <>
             <View style={{ 
                 flex: 1, 
                 flexDirection: 'column', 
@@ -87,7 +88,7 @@ class AddRoupa extends Component {
                     borderWidth: 2,
                     borderRadius: 5,
                     width: '100%',
-                }}></TextInput>
+                }} />
             
                 
             </View>
@@ -121,31 +122,19 @@ class AddRoupa extends Component {
               />
             </View>
             
-            {/* { 
-              this.state.roupas.filter(roupa => roupa.id === 1 && <Text>{roupa.nome}</Text> )
-            } */}
-            {/* <View style={{ , height: 50, flex: 1,}}> */}
-              <TouchableOpacity 
+            <TouchableOpacity 
               style={styles.footer}
                 onPress={() => addRoupa(this.state)}>
                 <Text style={{fontSize: 20, fontWeight: 'bold'}}>ADICIONAR</Text>  
-              </TouchableOpacity>
-            {/* </View> */}
-           
-        </View>
+            </TouchableOpacity>
+          </>
+        }
+        </View>   
       );
     }
-  }
+}
 
-const mapStateToProps = state => ({
-  data: state.roupas.data
-});
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(RoupasActions, dispatch);
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddRoupa);
+export default AddRoupa;
 
 
 const styles = StyleSheet.create({
