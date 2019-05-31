@@ -9,7 +9,7 @@
     "dev-menu": "adb shell input keyevent KEYCODE_MENU"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.19.0",
     "native-base": "^2.12.1",
     "react": "16.8.3",
     "react-native": "0.59.2",
