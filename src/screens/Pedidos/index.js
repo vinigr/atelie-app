@@ -21,7 +21,7 @@ export default class Pedidos extends Component {
       const res = await api.get('/pedido/listagem');
       this.setState({ pedidos: res.data, loading: false })
     } catch(err) {
-        this.setState({ erro: err.data.error , loading: false })
+      this.setState({ erro: err.data.error , loading: false })
     }
   } 
   
@@ -32,7 +32,7 @@ export default class Pedidos extends Component {
         {this.state.loading ? <ActivityIndicator /> : 
         <FlatList
         data={this.state.pedidos}
-        keyExtractor={item => item.idpedido}
+        keyExtractor={item => `${item.idpedido}`}
         renderItem={({ item }) => {
           return (
             <TouchableOpacity onPress={() => this.props.navigation.push('PedidoRoupas', { itemId: item.idpedido })}>
