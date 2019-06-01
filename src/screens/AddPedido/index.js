@@ -1,7 +1,7 @@
 import React, { Component, } from 'react'
 import { Text, TextInput, ScrollView, View, TouchableOpacity, Picker, StyleSheet, DatePickerAndroid, ActivityIndicator } from 'react-native'
 
-import { DatePicker, Toast } from 'native-base';
+import { DatePicker } from 'native-base';
 import AutoComplete  from 'react-native-autocomplete-input';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -35,7 +35,6 @@ export default class AddPedido extends Component {
     cadastrarPedido = async() => {
         const { idcliente , idloja, datarecebimento } = this.state;
         if(!idcliente, !idloja, !datarecebimento) return
-        const data = new Date(datarecebimento).getTime()
 
 
         this.setState({ loading: true })
@@ -45,7 +44,7 @@ export default class AddPedido extends Component {
             await api.post('/pedido/cadastrar', {
                 idcliente,
                 idloja,
-                datarecebimento: `${data}`
+                datarecebimento
             }).then(res => {
                 this.setState({ loading: false })
                 this.props.navigation.navigate('PedidoRoupas', { itemId: res.data[0].idpedido })
@@ -116,12 +115,9 @@ export default class AddPedido extends Component {
                     textStyle={{ color: "#000" }}
                     placeHolderTextStyle={{ color: "#000" }}
                     onDateChange={date => {
-                        console.tron.log(this.state.datarecebimento)
-                        this.setState({ datarecebimento: date })}
-                        
+                        this.setState({ datarecebimento: date })}          
                     }
-                    disabled={false}
-                    
+                    disabled={false} 
                 />
             </View>
             <TouchableOpacity style={styles.button} onPress={() => this.cadastrarPedido()}>
