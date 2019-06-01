@@ -35,9 +35,10 @@ export default class Pedidos extends Component {
         keyExtractor={item => `${item.idpedido}`}
         renderItem={({ item }) => {
           return (
-            <TouchableOpacity onPress={() => this.props.navigation.push('PedidoRoupas', { itemId: item.idpedido })}>
+            <TouchableOpacity onPress={() => this.props.navigation.push('PedidoRoupas', { pedidoId: item.idpedido })}>
               <View style={styles.pedidoTouchable}>
                 <TextTitulo>#{item.idpedido}</TextTitulo>
+                <Text>{item.nomecliente}</Text>
               </View>
             </TouchableOpacity>
           );
