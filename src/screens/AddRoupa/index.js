@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Text, View, Button, TextInput, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Text, View, TextInput, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { DatePicker } from 'native-base';
 
 import api from '../../services/api';
 
@@ -10,7 +11,8 @@ class AddRoupa extends Component {
       this.state = {
         loading: true,
         isActive: null,
-        roupas: []
+        roupas: [],
+        prazoEntrega: null,
       }
       this._onShowUnderlay = this._onShowUnderlay.bind(this);
     }
@@ -41,60 +43,17 @@ class AddRoupa extends Component {
         style={this.state.isActive === roupa.idtiporoupa ? styles.buttonPress : styles.button}
         key={`${roupa.nomeroupa}-${roupa.idtiporoupa}`}>
         {/* <Icon height={40} width={40} source={source} /> */}
-        <Text>{roupa.nome}</Text>
+        <Text style={styles.textRoupas}>{roupa.nomeroupa}</Text>
       </TouchableOpacity>
     )
 
-    // state = {
-    //     id: '4', name: "gfdgdf", ajustes: [
-    //       {id: "", name: "", concluido: null},
-    //     ], prazo: "", estado: 'PENDENTE', cliente: '', entrega: null
-    // }
-
-    // componentDidMount= () => {
-    //   const { navigation } = this.props;
-    //   const item = navigation.getParam('item');
-    //   this.setState(item);
-    // }
-
-    render() {   
-      const { addRoupa } = this.props;
-      // console.log(this.state.roupas.isActive)
-      // console.log(this.state.roupas)
+    render() { 
       return (
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
-          { this.state.loading ? ActivityIndicator : 
+          { this.state.loading ? <ActivityIndicator /> : 
           <>
-            <View style={{ 
-                flex: 1, 
-                flexDirection: 'column', 
-                // alignItems: 'center', 
-                backgroundColor: '#fFF', 
-                maxHeight: 40,
-                minHeight: 40,
-                width: '97%', 
-                marginRight: 'auto', 
-                marginLeft: 'auto',
-                marginBottom: 30,
-                
-                }}>
-              <Text style={{ color: '#000', }}>CLIENTE</Text>
-              <TextInput 
-                // value={this.state.roupaTipo.name}
-              value={this.props.name}
-                style={{ 
-                    borderColor: '#3a8fdc',
-                    borderStyle: 'solid',
-                    borderWidth: 2,
-                    borderRadius: 5,
-                    width: '100%',
-                }} />
-            
-                
-            </View>
-
             <View style={{ width: '97%', marginRight: 'auto', marginLeft: 'auto' }}>
-              <Text style={{ color: '#000', }}>ROUPA</Text>
+              <Text style={styles.text}>Roupa</Text>
               <ScrollView horizontal
                           showsHorizontalScrollIndicator={false}
               >
@@ -103,14 +62,31 @@ class AddRoupa extends Component {
             </View>
             
             <View style={{ width: '97%', marginRight: 'auto', marginLeft: 'auto' }}>
-              <Text style={{ color: '#000', }}>OBSERVAÇÕES</Text>
+              <Text style={styles.text}>Prazo de entrega</Text>
+              <DatePicker
+                      minimumDate={new Date(2019, 1, 5)}
+                      // maximumDate={new Date(2018, 12, 31)}
+                      locale={"en"}
+                      timeZoneOffsetInMinutes={undefined}
+                      modalTransparent={false}
+                      animationType={"fade"}
+                      androidMode={"default"}
+                      textStyle={{ color: "#000" }}
+                      placeHolderText="Data"
+                      // placeHolderTextStyle={{ color: "#000" }}
+                      onDateChange={date => {
+                          this.setState({ prazoEntrega: date })}                  
+                      }
+                      disabled={false}             
+                  />
+            </View>
+
+            <View style={{ width: '97%', marginRight: 'auto', marginLeft: 'auto', marginTop: 10 }}>
+              <Text style={styles.text}>Observações</Text>
               <TextInput
                 style={{ 
-                  borderColor: 'green',
-                  borderStyle: 'solid',
-                  borderWidth: 2,
                   borderRadius: 5,
-                  
+                  backgroundColor: '#EFF0F0'
                 }}
                 multiline
                 numberOfLines={5}
@@ -122,10 +98,8 @@ class AddRoupa extends Component {
               />
             </View>
             
-            <TouchableOpacity 
-              style={styles.footer}
-                onPress={() => addRoupa(this.state)}>
-                <Text style={{fontSize: 20, fontWeight: 'bold'}}>ADICIONAR</Text>  
+            <TouchableOpacity style={styles.buttonAdicionar} onPress={() => this.cadastrarPedido()}>
+                <Text style={styles.textButton}>Cadastrar roupas</Text>
             </TouchableOpacity>
           </>
         }
@@ -156,21 +130,33 @@ const styles = StyleSheet.create({
   activeTitle: {
     color: 'red',
   },
-  footer: {
+  buttonAdicionar: {
+    marginTop: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    position:'absolute',
-    left: 0, right: 0, bottom: 0,
     height: 50,
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
-    width: '100%', 
-    backgroundColor: '#3a8fdc'
+    borderRadius: 5,
+    width: '70%', 
+    backgroundColor: '#3a8fdc',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    flexDirection: 'row'
   },
-  
+  text: {
+    fontFamily: 'OpenSans-Regular',
+    color: '#000'
+  },
+  textRoupas: {
+    fontFamily: 'OpenSans-Regular',
+    // color: '#999'
+  },
+  textButton:{
+    color: '#fff',
+    fontSize: 18,
+    fontFamily: 'OpenSans-Semibold',
+  },  
   buttonFixed: {
     color: '#fff', 
-     
     flexDirection: 'column',
     justifyContent: 'center',
     alignContent: 'center', 
