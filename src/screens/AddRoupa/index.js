@@ -11,8 +11,11 @@ class AddRoupa extends Component {
       this.state = {
         loading: true,
         isActive: null,
+        isActiveAjuste: [],
         roupas: [],
+        ajustes: [],
         prazoEntrega: null,
+        observacoes: '',
       }
       this._onShowUnderlay = this._onShowUnderlay.bind(this);
     }
@@ -27,61 +30,111 @@ class AddRoupa extends Component {
         this.setState({ roupas: res.data, loading: false })
       } catch(err){
         this.setState({ erro: err.data.error , loading: false })
+      }      
+    }
+
+    buscaAjustes = async id => {
+      try{
+        const res = await api.get(`preco/listagemRoupa/${id}`)
+        this.setState({ ajustes: res.data })
+      } catch(err){
+        this.setState({ erro: err.data.error , loading: false })
       }
-      
+      console.tron.log(this.state.ajustes)
     }
 
     _onShowUnderlay(id) {
-      this.setState({ isActive: id, })
-
+      this.setState({ isActive: id, isActiveAjuste: [] })
+      this.buscaAjustes(id);
     }
 
-    renderMenusItems = (roupa) => (
+    _onShowAjusteUnderlay = id => {
+      const ajuste = this.state.isActiveAjuste.filter(ajuste => ajuste === id);
+      if(ajuste.length !== 0) {
+        this.setState(state => {
+          const isActiveAjuste = state.isActiveAjuste.filter(j => id !== j);
+          return {
+            isActiveAjuste,
+          };
+        });
+        return
+      }
+
+      this.setState({ isActiveAjuste: [...this.state.isActiveAjuste, id] });
+    } 
+
+    renderRoupas = (roupa) => (
       <TouchableOpacity  
         onPress={() => this._onShowUnderlay(roupa.idtiporoupa)}
-        // underlayColor = {'#F9F9F9'}
         style={this.state.isActive === roupa.idtiporoupa ? styles.buttonPress : styles.button}
-        key={`${roupa.nomeroupa}-${roupa.idtiporoupa}`}>
-        {/* <Icon height={40} width={40} source={source} /> */}
+        key={`${roupa.nomeroupa}-${roupa.idtiporoupa}`}
+      >
         <Text style={styles.textRoupas}>{roupa.nomeroupa}</Text>
       </TouchableOpacity>
     )
+
+    renderAjustes = (ajuste) => (
+      <TouchableOpacity  
+        onPress={() => this._onShowAjusteUnderlay(ajuste.idtipoajuste)}
+        style={this.state.isActiveAjuste.filter(a => a === ajuste.idtipoajuste)[0] === ajuste.idtipoajuste ? styles.buttonAjustePress : styles.buttonAjuste }
+        key={`${ajuste.nometipoajuste}-${ajuste.idtipoajuste}`}
+      >
+        <Text style={styles.text}>{ajuste.nometipoajuste}</Text>
+      </TouchableOpacity>
+    )
+
+    cadastrarPedido = () => {
+      console.tron.log(this.state);
+    }
 
     render() { 
       return (
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
           { this.state.loading ? <ActivityIndicator /> : 
           <>
-            <View style={{ width: '97%', marginRight: 'auto', marginLeft: 'auto' }}>
+            <View style={{ width: '97%', marginRight: 'auto', marginLeft: 'auto', marginBottom: 10 }}>
               <Text style={styles.text}>Roupa</Text>
               <ScrollView horizontal
                           showsHorizontalScrollIndicator={false}
               >
-                {this.state.roupas.map(this.renderMenusItems)}
+                {this.state.roupas.map(this.renderRoupas)}
               </ScrollView>
             </View>
-            
-            <View style={{ width: '97%', marginRight: 'auto', marginLeft: 'auto' }}>
+            {
+              this.state.ajustes.length !== 0 ? 
+                <View style={{ width: '97%', marginRight: 'auto', marginLeft: 'auto' }}>
+                    <Text style={styles.text}>Ajustes</Text>
+                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginLeft: 'auto', marginRight: 'auto' }}>
+                      {this.state.ajustes.map(this.renderAjustes)} 
+                    </View>              
+                </View>
+              : null 
+            }
+            <View style={{ width: '97%', marginRight: 'auto', marginLeft: 'auto', marginBottom: 5 }}>
               <Text style={styles.text}>Prazo de entrega</Text>
               <DatePicker
-                      minimumDate={new Date(2019, 1, 5)}
-                      // maximumDate={new Date(2018, 12, 31)}
-                      locale={"en"}
-                      timeZoneOffsetInMinutes={undefined}
-                      modalTransparent={false}
-                      animationType={"fade"}
-                      androidMode={"default"}
-                      textStyle={{ color: "#000" }}
-                      placeHolderText="Data"
-                      // placeHolderTextStyle={{ color: "#000" }}
-                      onDateChange={date => {
-                          this.setState({ prazoEntrega: date })}                  
-                      }
-                      disabled={false}             
-                  />
+                minimumDate={new Date(2019, 1, 5)}
+                // maximumDate={new Date(2018, 12, 31)}
+                locale={"en"}
+                timeZoneOffsetInMinutes={undefined}
+                modalTransparent={false}
+                style={{ 
+                  borderRadius: 5,
+                  backgroundColor: '#EFF0F0'
+                }}
+                animationType={"fade"}
+                androidMode={"default"}
+                textStyle={{ color: "#000" }}
+                placeHolderText="Data"
+                placeHolderTextStyle={{ color: "#999" }}
+                onDateChange={date => {
+                    this.setState({ prazoEntrega: date })}                  
+                }
+                disabled={false}             
+              />
             </View>
 
-            <View style={{ width: '97%', marginRight: 'auto', marginLeft: 'auto', marginTop: 10 }}>
+            <View style={{ width: '97%', marginRight: 'auto', marginLeft: 'auto' }}>
               <Text style={styles.text}>Observações</Text>
               <TextInput
                 style={{ 
@@ -91,15 +144,15 @@ class AddRoupa extends Component {
                 multiline
                 numberOfLines={5}
                 placeholderTextColor='#999'
-                value={this.state.newTweet}
-                onChangeText={this.handleInputChange}
+                value={this.state.observacoes}
+                onChangeText={text => this.setState({ observacoes: text })}
                 returnKeyType='send'
                 onSubmitEditing={this.handleTweet}
               />
             </View>
             
             <TouchableOpacity style={styles.buttonAdicionar} onPress={() => this.cadastrarPedido()}>
-                <Text style={styles.textButton}>Cadastrar roupas</Text>
+                <Text style={styles.textButton}>Adicionar roupa</Text>
             </TouchableOpacity>
           </>
         }
@@ -127,6 +180,26 @@ const styles = StyleSheet.create({
     padding: 8,
     justifyContent: 'space-between',
   },
+  buttonAjuste: {
+    backgroundColor: '#F9F9F9',
+    marginLeft: 4,
+    marginRight: 4,
+    marginBottom: 5,
+    borderRadius: 3,
+    padding: 8,
+    width: '47.5%',
+    alignItems: 'center'
+  },
+  buttonAjustePress: {
+    backgroundColor: '#239FC5',
+    marginLeft: 4,
+    marginRight: 4,
+    marginBottom: 5,
+    borderRadius: 3,
+    padding: 8,
+    width: '47.5%',
+    alignItems: 'center'
+  },
   activeTitle: {
     color: 'red',
   },
@@ -148,7 +221,6 @@ const styles = StyleSheet.create({
   },
   textRoupas: {
     fontFamily: 'OpenSans-Regular',
-    // color: '#999'
   },
   textButton:{
     color: '#fff',
@@ -160,11 +232,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignContent: 'center', 
-    // fontSize: 25,
     height: 100, 
     marginLeft: 'auto', 
     marginRight: 'auto',
-    
-    // padding: 0,
   }
 });
