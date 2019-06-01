@@ -53,28 +53,17 @@ export default class AddPedido extends Component {
             
         } catch(err) {
             this.setState({ erro: err.data.error , loading: false })
-            console.log('err' + err)
         }
-
     }
-
-    
-    // renderListCliente = () => {
-    //     clientes.filter(cliente => {
-    //         return cliente.nomecliente.
-    //     })
-    // }
 
     render() {  
         const View1 = (
             <View>
                 <View>
                     <Text>Cliente</Text>
-                    {/* { console.tron.log('Olá', this.state.clientes.nomecliente)} */}
                     <Picker
                         selectedValue={this.state.idcliente}
                         onValueChange={itemValue => {
-                            console.tron.log(this.state.idcliente)
                             this.setState({idcliente: itemValue})
                         }
                             
@@ -140,7 +129,6 @@ const styles = StyleSheet.create({
     container: {
         width: '97%',
         flex: 1,
-        // justifyContent: 'center',
         marginLeft: 'auto',
         marginRight: 'auto'
     },
@@ -156,9 +144,6 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 40,
         marginBottom: 10
-    },
-    picker: {
-
     },
     button: {
         marginTop: 10,
