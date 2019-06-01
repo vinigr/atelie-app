@@ -4,15 +4,21 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default class PedidoRoupas extends Component {
   static navigationOptions = ({ navigation }) => {
-    return {
-      title: `Pedido #${navigation.getParam('itemId')}`,
-    };
+    if(navigation.getParam('itemId')){
+      return {
+        title: `Pedido #${navigation.getParam('itemId')}`,
+      };
+    } else {
+      return {
+        title: `Pedido #${navigation.getParam('pedidoId')}`,
+      };
+    }
   };
 
   componentDidMount(){
     const { navigation } = this.props;
-    
     const itemId = navigation.getParam('itemId', 'NO-ID');
+  
     if(itemId !== 'NO-ID') {
       this.props.navigation.navigate('AddRoupa')
     }
