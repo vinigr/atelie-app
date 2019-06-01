@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Text, View, TextInput, TouchableOpacity, ScrollView, Alert, Picker } from 'react-native'
+import { Text, View, TextInput, TouchableOpacity, ScrollView, Picker } from 'react-native'
+import TextInputMask from 'react-native-text-input-mask'; 
 
 import styles from './styles';
 import api from '../../services/api';
@@ -68,12 +69,13 @@ export default class CadastroClientes extends Component {
               onChangeText={text => this.setState({ cliente: text})}
             />
             <Text>CPF</Text>
-            <TextInput 
-              value={cpf} 
+            <TextInputMask
+              onChangeText={(formatted, extracted) => {
+                this.setState({ cpf: extracted })
+              }}
               style={styles.inputTelefone} 
-              onChangeText={text => this.setState({ cpf: text })}
+              mask={"[000].[000].[000]-[00]"}
               keyboardType='numeric'
-              maxLength={11}
             />
             <Text>Endereço</Text>
             <TextInput 
@@ -90,12 +92,13 @@ export default class CadastroClientes extends Component {
             <View style={styles.estadoTelefone}>
               <View style={styles.viewTelefone}>
                 <Text>Telefone</Text>
-                <TextInput 
-                  value={telefone} 
+                <TextInputMask
+                  onChangeText={(formatted, extracted) => {
+                    this.setState({ telefone: extracted })
+                  }}
                   style={styles.inputTelefone} 
-                  onChangeText={text => this.setState({ telefone: text })}
+                  mask={"([00]) [00000]-[0000]"}
                   keyboardType='numeric'
-                  maxLength={11}
                 />
               </View>
               <View style={styles.viewPicker}>
