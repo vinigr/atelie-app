@@ -2,7 +2,7 @@ import React, { Component, } from 'react'
 import { Text, TextInput, ScrollView, View, TouchableOpacity, Picker, StyleSheet, DatePickerAndroid, ActivityIndicator } from 'react-native'
 
 import { DatePicker } from 'native-base';
-import AutoComplete  from 'react-native-autocomplete-input';
+import Autocomplete  from 'react-native-autocomplete-input';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import api from '../../services/api';
@@ -15,7 +15,9 @@ export default class AddPedido extends Component {
         clientes: [],
         loading: true,
         empresas: [],
-        erro: '',
+        err: '',
+        clienteQuery: [],
+        query: ''
     }
     
     componentDidMount(){
@@ -56,12 +58,25 @@ export default class AddPedido extends Component {
         }
     }
 
+    queryCliente = async text => {
+        try{
+            await this.setState({ query: text });
+            if(this.state.query === '') return
+            const res = await api.get(`/cliente/listagemNome/${text}`);
+            await this.setState({ clienteQuery: res.data });
+        } catch(err) {
+            this.setState({ erro: err.data.error })
+        }
+        
+        
+    }
+
     render() {  
         const View1 = (
             <View>
                 <View>
                     <Text>Cliente</Text>
-                    <Picker
+                    {/* <Picker
                         selectedValue={this.state.idcliente}
                         onValueChange={itemValue => {
                             this.setState({idcliente: itemValue})
@@ -72,8 +87,36 @@ export default class AddPedido extends Component {
                         { this.state.clientes.map(cliente => ( 
                             <Picker.Item key={cliente.idcliente} label={cliente.nomecliente} value={cliente.idcliente} />
                         ))}
-                    </Picker>
-                    
+                    </Picker> */}
+                    {/* <View> */}
+                        {/* <AutoComplete 
+                            data={this.state.clienteQuery}
+                            containerStyle={styles.autocompleteContainer}
+                            keyExtractor={item => `${item.idcliente}`}
+                            defaultValue={this.state.query}
+                            onChangeText={text => this.queryCliente(text)}
+                            renderItem={({ item, i }) => (
+                            <TouchableOpacity style={{ padding: 5 }} onPress={() => this.setState({ query: item.nomecliente })}>
+                                <Text style={{ fontSize: 15, paddingTop: 5, paddingBottom: 5, margin: 2 }}>{item.nomecliente}</Text>
+                            </TouchableOpacity>
+                            )}
+                        /> */}
+                        <Autocomplete
+                            keyExtractor={item => `${item.idcliente}`}
+                            autoCorrect={false}
+                            containerStyle={styles.autocompleteContainer}
+                            data={this.state.clienteQuery}
+                            defaultValue={this.state.query}
+                            onChangeText={text => this.queryCliente(text)}
+                            renderItem={({ item, release_date }) => (
+                                <TouchableOpacity onPress={() => this.setState({ query: item.nomecliente })}>
+                                <Text style={styles.itemText}>
+                                    {item.nomecliente}
+                                </Text>
+                                </TouchableOpacity>
+                            )}
+                        />
+                    {/* </View> */}
                 </View>
             <View>
             <Text>Empresa</Text>
@@ -158,23 +201,22 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     autocompleteContainer: {
+        backgroundColor: '#ffffff',
+        borderWidth: 0,
+    },
+    descriptionContainer: {
         flex: 1,
-        left: 0,
-        position: 'absolute',
-        right: 0,
-        top: 18,
-        zIndex: 1
-      }
+        justifyContent: 'center',
+    },
+    itemText: {
+        fontSize: 15,
+        paddingTop: 5,
+        paddingBottom: 5,
+        margin: 2,
+    },
+    infoText: {
+        textAlign: 'center',
+        fontSize: 16,
+    },
 })
 
-{/* <View style={styles.autocompleteContainer}>
-                        <AutoComplete 
-                        data={clientes.nomecliente}
-                        defaultValue={query}
-                        onChangeText={text => this.setState({ query: text })}
-                        renderItem={({ item, i }) => (
-                          <TouchableOpacity onPress={() => this.setState({ query: item })}>
-                            <Text>{item}</Text>
-                          </TouchableOpacity>
-                        )}/>
-                    </View> */}
