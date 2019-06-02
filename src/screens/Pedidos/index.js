@@ -30,21 +30,22 @@ export default class Pedidos extends Component {
       <View>
         {this.state.erro !== '' && <Text>{this.state.erro}</Text>}
         {this.state.loading ? <ActivityIndicator /> : 
-        <FlatList
-        data={this.state.pedidos}
-        keyExtractor={item => `${item.idpedido}`}
-        renderItem={({ item }) => {
-          return (
-            <TouchableOpacity onPress={() => this.props.navigation.push('PedidoRoupas', { pedidoId: item.idpedido })}>
-              <View style={styles.pedidoTouchable}>
-                <TextTitulo>#{item.idpedido}</TextTitulo>
-                <Text>{item.nomecliente}</Text>
-              </View>
-            </TouchableOpacity>
-          );
-        }}
-      />}
-    </View>
+          <FlatList
+            data={this.state.pedidos}
+            keyExtractor={item => `${item.idpedido}`}
+            renderItem={({ item }) => {
+              return (
+                <TouchableOpacity onPress={() => this.props.navigation.push('PedidoRoupas', { pedidoId: item.idpedido })}>
+                  <View style={styles.pedidoTouchable}>
+                    <TextTitulo>#{item.idpedido}</TextTitulo>
+                    <Text>{item.nomecliente}</Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            }}
+          />
+        }
+      </View>
     )
   }
 }

@@ -1,40 +1,79 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, ActivityIndicator, FlatList } from 'react-native';
+import api from '../../services/api';
+
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default class PedidoRoupas extends Component {
   static navigationOptions = ({ navigation }) => {
+    let idpedido = null;
     if(navigation.getParam('itemId')){
-      return {
-        title: `Pedido #${navigation.getParam('itemId')}`,
-      };
+      idpedido = navigation.getParam('itemId');
     } else {
-      return {
-        title: `Pedido #${navigation.getParam('pedidoId')}`,
-      };
+      idpedido = navigation.getParam('pedidoId');
     }
+    return {
+      title: `Pedido #${idpedido}`,
+    };
   };
 
-  componentDidMount(){
-    const { navigation } = this.props;
-    const itemId = navigation.getParam('itemId', 'NO-ID');
-  
-    if(itemId !== 'NO-ID') {
-      this.props.navigation.navigate('AddRoupa')
-    }
+  state = {
+    err: null,
+    loading: true,
+    idpedido: null,
+    roupas: [],
+  }
 
+  async componentDidMount(){
+    const { navigation } = this.props;
+    if(navigation.getParam('itemId')){
+      let idpedido = navigation.getParam('itemId');
+      this.setState({ idpedido });
+      this.props.navigation.navigate('AddRoupa', { pedidoId: idpedido });
+    } else {
+      let idpedido = navigation.getParam('pedidoId');
+      await this.setState({ idpedido });
+    }
+    this.buscaBanco();
+  }
+
+  buscaBanco = async () => {
+    try{
+      const res = await api.get(`/roupa/listagemPedido/${this.state.idpedido}`);
+      this.setState({ roupas: res.data, loading: false });
+    } catch(err) {
+      this.setState({ err, loading: false });
+    }
   }
   
   render() {
     
     return (
       <View style={{ flex: 1 }}>
-      {/* <Text>{itemId}</Text> */}
-        <Text> Conteudo Pedido </Text>
-        {/* <View> */}
-          <TouchableOpacity style={styles.button}>
-          <Icon name='plus' style={styles.mais}/>
-          </TouchableOpacity>
+        {this.state.loading ? <ActivityIndicator /> :
+          <>
+            <FlatList
+              data={this.state.roupas}
+              keyExtractor={item => `${item.idroupa}`}
+              renderItem={({ item }) => {
+                return (
+                  <TouchableOpacity 
+                  // onPress={() => this.props.navigation.push('PedidoRoupas', { pedidoId: item.idpedido })}
+                  >
+                    <View style={styles.pedidoTouchable}>
+                      {/* <TextTitulo>#{item.idpedido}</TextTitulo> */}
+                      <Text>{item.observacao}</Text>
+                    </View>
+                  </TouchableOpacity>
+                );
+              }}
+            /> 
+            <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('AddRoupa', { pedidoId: this.state.idpedido })}>
+              <Icon name='plus' style={styles.mais}/>
+            </TouchableOpacity>
+          </>   
+        }
+          
           
         {/* </View> */}
       </View>

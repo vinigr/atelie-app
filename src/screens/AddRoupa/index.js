@@ -22,6 +22,9 @@ class AddRoupa extends Component {
 
     componentDidMount(){
       this.buscaBanco();
+      const { navigation } = this.props;
+      const itemId = navigation.getParam('pedidoId');
+      console.tron.log(itemId)
     }
 
     buscaBanco = async() => {
