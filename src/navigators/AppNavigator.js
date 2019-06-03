@@ -1,11 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-import { Text, View } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
+import { Container, Content, Header, Body } from 'native-base';
 
 import { createAppContainer, DrawerItems, createDrawerNavigator, createStackNavigator, createMaterialTopTabNavigator } from "react-navigation";
 
-// import AddIcon from '../components/AddIcon';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import HamburgerIcon from '../components/HamburgerIcon';
+import styles from './styles';
 
 import Home_Screen from '../screens/Home/';
 import DetailsScreen from '../screens/DetailsRoupas';
@@ -17,6 +19,8 @@ import PedidosScreen from '../screens/Pedidos';
 import PedidoRoupasScreen from '../screens/PedidoRoupas';
 import ListaAjusteCliente from '../screens/ListaAjusteCliente';
 import ListaAjusteEmpresa from '../screens/ListaAjusteEmpresa';
+
+
 
 const TelaInicial = createStackNavigator({
   Home: {
@@ -53,7 +57,7 @@ const TelaInicial = createStackNavigator({
     },
     headerTintColor: '#fff',
   })
-  } 
+  },
 });
 
 const PedidosLista = createStackNavigator({
@@ -201,30 +205,79 @@ const ListaAjustes = createStackNavigator({
   },
 });
 
+const CustomDrawerContentComponent = (props) => (
+  <Container>
+    <Header style={styles.drawerHeader}>
+      <Body>
+        <Image
+           style={styles.drawerImage}
+           source={require('../img/logo.png')}
+        />
+      </Body>
+    </Header>
+    <Content>
+      <DrawerItems {...props} />
+    </Content>
+  </Container>
+);
+
 const MyDrawerNavigator = createDrawerNavigator({
   'Início': {
     screen: TelaInicial,
+    navigationOptions: ({ navigation }) => ({
+      drawerIcon: ({ focused }) => (
+          <Icon name='home' size={24} color={focused ? '#2699FB' : 'black'} />
+      ),
+    })
   },
   'Pedidos': {
-    screen: PedidosLista
+    screen: PedidosLista,
+    navigationOptions: ({ navigation }) => ({
+      drawerIcon: ({ focused }) => (
+          <Icon name='package-variant-closed' size={24} color={focused ? '#2699FB' : 'black'} />
+      ),
+    })
   },
   'Cadastro de pedidos': {
     screen: CadastroPedidos,
+    navigationOptions: ({ navigation }) => ({
+      drawerIcon: ({ focused }) => (
+          <Icon name='book-multiple-plus' size={24} color={focused ? '#2699FB' : 'black'} />
+      ),
+    })
   },
   'Cadastro de clientes': {
     screen: CadastroClientes,
+    navigationOptions: ({ navigation }) => ({
+      drawerIcon: ({ focused }) => (
+          <Icon name='account-plus' size={24} color={focused ? '#2699FB' : 'black'} />
+      ),
+    })
   },
   'Ajustes de roupas': {
-    screen: ListaAjustes, 
+    screen: ListaAjustes,
+    navigationOptions: ({ navigation }) => ({
+      drawerIcon: ({ focused }) => (
+          <Icon name='hanger' size={24} color={focused ? '#2699FB' : 'black'} />
+      ),
+    })
   },
   'Entregas Pendentes': {
     screen: Entregas,
+    navigationOptions: ({ navigation }) => ({
+      drawerIcon: ({ focused }) => (
+          <Icon name='calendar-clock' size={24} color={focused ? '#2699FB' : 'black'} />
+      ),
+    })
   },
-  'Configurações': {
-    screen: CadastroPedidos,
-  },  
-}
-);
+},{
+  contentComponent: CustomDrawerContentComponent,
+  contentOptions: {
+    labelStyle: {
+      fontSize: 16,
+      
+    }
+  }
+});
 
 export default createAppContainer(MyDrawerNavigator);
-
