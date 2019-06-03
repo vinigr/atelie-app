@@ -10,7 +10,7 @@ class AddRoupa extends Component {
       
       this.state = {
         loading: true,
-        isActive: null,
+        roupaSelecionada: null,
         isActiveAjuste: [],
         roupas: [],
         ajustes: [],
@@ -47,7 +47,7 @@ class AddRoupa extends Component {
     }
 
     _onShowUnderlay(id) {
-      this.setState({ isActive: id, isActiveAjuste: [] })
+      this.setState({ roupaSelecionada: id, isActiveAjuste: [] })
       this.buscaAjustes(id);
     }
 
@@ -69,7 +69,7 @@ class AddRoupa extends Component {
     renderRoupas = (roupa) => (
       <TouchableOpacity  
         onPress={() => this._onShowUnderlay(roupa.idtiporoupa)}
-        style={this.state.isActive === roupa.idtiporoupa ? styles.buttonPress : styles.button}
+        style={this.state.roupaSelecionada === roupa.idtiporoupa ? styles.buttonPress : styles.button}
         key={`${roupa.nomeroupa}-${roupa.idtiporoupa}`}
       >
         <Text style={styles.textRoupas}>{roupa.nomeroupa}</Text>
