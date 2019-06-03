@@ -1,8 +1,7 @@
 import React, { Component, } from 'react'
-import { Text, TextInput, ScrollView, View, TouchableOpacity, Picker, StyleSheet, DatePickerAndroid, ActivityIndicator } from 'react-native'
+import { Text, ScrollView, View, TouchableOpacity, StyleSheet, ActivityIndicator, Picker } from 'react-native'
 
 import { DatePicker } from 'native-base';
-import Autocomplete  from 'react-native-autocomplete-input';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import api from '../../services/api';
@@ -76,76 +75,43 @@ export default class AddPedido extends Component {
             <View>
                 <View>
                     <Text>Cliente</Text>
-                    {/* <Picker
+                    <Picker
                         selectedValue={this.state.idcliente}
                         onValueChange={itemValue => {
                             this.setState({idcliente: itemValue})
-                        }
-                            
-                        }
+                        }}
                     >
                         { this.state.clientes.map(cliente => ( 
                             <Picker.Item key={cliente.idcliente} label={cliente.nomecliente} value={cliente.idcliente} />
                         ))}
-                    </Picker> */}
-                    {/* <View> */}
-                        {/* <AutoComplete 
-                            data={this.state.clienteQuery}
-                            containerStyle={styles.autocompleteContainer}
-                            keyExtractor={item => `${item.idcliente}`}
-                            defaultValue={this.state.query}
-                            onChangeText={text => this.queryCliente(text)}
-                            renderItem={({ item, i }) => (
-                            <TouchableOpacity style={{ padding: 5 }} onPress={() => this.setState({ query: item.nomecliente })}>
-                                <Text style={{ fontSize: 15, paddingTop: 5, paddingBottom: 5, margin: 2 }}>{item.nomecliente}</Text>
-                            </TouchableOpacity>
-                            )}
-                        /> */}
-                        <Autocomplete
-                            keyExtractor={item => `${item.idcliente}`}
-                            autoCorrect={false}
-                            containerStyle={styles.autocompleteContainer}
-                            data={this.state.clienteQuery}
-                            defaultValue={this.state.query}
-                            onChangeText={text => this.queryCliente(text)}
-                            renderItem={({ item, release_date }) => (
-                                <TouchableOpacity onPress={() => this.setState({ query: item.nomecliente })}>
-                                <Text style={styles.itemText}>
-                                    {item.nomecliente}
-                                </Text>
-                                </TouchableOpacity>
-                            )}
-                        />
-                    {/* </View> */}
+                    </Picker>
                 </View>
             <View>
-            <Text>Empresa</Text>
-            <Picker
-                selectedValue={this.state.idloja}
-                onValueChange={itemValue => {
-                    this.setState({ idloja: itemValue })
-                }
-                    
-                }
-            >
-                { this.state.empresas.map(empresa => ( 
-                    <Picker.Item key={empresa.idloja} label={empresa.nomeloja} value={empresa.idloja} />
-                ))}
-            </Picker>
+                <Text>Empresa</Text>
+                <Picker
+                    selectedValue={this.state.idloja}
+                    onValueChange={itemValue => {
+                        this.setState({ idloja: itemValue })
+                    }}
+                    placeHolderText='Selecione'
+                >
+                    { this.state.empresas.map(empresa => ( 
+                        <Picker.Item key={empresa.idloja} label={empresa.nomeloja} value={empresa.idloja} />
+                    ))}
+                </Picker>
             </View>
             <View>
                 <Text>Data de entrada</Text>
                 <DatePicker
-                    defaultDate={new Date()}
                     minimumDate={new Date(2019, 1, 1)}
-                    // maximumDate={new Date(2018, 12, 31)}
                     locale={"en"}
                     timeZoneOffsetInMinutes={undefined}
                     modalTransparent={false}
                     animationType={"fade"}
                     androidMode={"default"}
                     textStyle={{ color: "#000" }}
-                    placeHolderTextStyle={{ color: "#000" }}
+                    placeHolderText="Selecione"
+                    placeHolderTextStyle={{ color: "#B9B9B9" }}
                     onDateChange={date => {
                         this.setState({ datarecebimento: date })}          
                     }
@@ -199,24 +165,6 @@ const styles = StyleSheet.create({
         marginLeft: 'auto',
         marginRight: 'auto',
         flexDirection: 'row'
-    },
-    autocompleteContainer: {
-        backgroundColor: '#ffffff',
-        borderWidth: 0,
-    },
-    descriptionContainer: {
-        flex: 1,
-        justifyContent: 'center',
-    },
-    itemText: {
-        fontSize: 15,
-        paddingTop: 5,
-        paddingBottom: 5,
-        margin: 2,
-    },
-    infoText: {
-        textAlign: 'center',
-        fontSize: 16,
     },
 })
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Text, View, Button, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, View, Button, FlatList, Image, TouchableOpacity } from 'react-native';
 
 import { StyledView, TextTitulo, TextPrazo } from '../../styles/styled';
 
