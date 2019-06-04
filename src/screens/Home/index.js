@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import { StyledView, TextTitulo, TextPrazo } from '../../styles/styled';
+import { TextTitulo, TextPrazo } from '../../styles/styled';
 
 import styles from './styles';
 
