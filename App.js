@@ -5,17 +5,15 @@ import { Provider } from 'react-redux';
 
 import AppNavigator from './src/navigators/AppNavigator';
 
-
 // StatusBar.setBarStyle('light-content', true);
 
-import store from './src/store/';
-
+import store from './src/store';
 
 class App extends Component {
   render() {
-  	return (
+    return (
       <Provider store={store}>
-          <AppNavigator />
+        <AppNavigator />
       </Provider>
     );
   }
