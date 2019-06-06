@@ -19,7 +19,7 @@ export default class ListaAjusteCliente extends Component {
 
     buscaLista = async () => {
       try {
-        const res = await api.get('/preco/listaPF');
+        const res = await api.get('/preco/listagemPrecoRoupaPF');
         this.setState({ listaRoupas: res.data, loading: false });
       } catch (err) {
         this.setState({ errorMessage: err.data.error });

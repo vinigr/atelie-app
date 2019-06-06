@@ -22,7 +22,7 @@ export default class ListaAjusteEmpresa extends Component {
 
   buscaLista = async () => {
     try {
-      const res = await api.get('/preco/listaPJ');
+      const res = await api.get('/preco/listagemPrecoRoupaPJ');
       this.setState({ listaRoupas: res.data, loading: false });
     } catch (err) {
       this.setState({ errorMessage: err.data.error });
