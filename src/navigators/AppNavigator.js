@@ -18,7 +18,7 @@ import HamburgerIcon from '../components/HamburgerIcon';
 import styles from './styles';
 
 import HomeScreen from '../screens/Home';
-import DetailsScreen from '../screens/DetailsRoupas';
+import DetalhesRoupa from '../screens/DetalhesRoupa';
 import EntregasPendentesScreen from '../screens/EntregasPendentes';
 import AddRoupaScreen from '../screens/AddRoupa';
 import CadastroClientesScreen from '../screens/CadastroClientes';
@@ -50,8 +50,8 @@ const TelaInicial = createStackNavigator({
       },
     }),
   },
-  Details: {
-    screen: DetailsScreen,
+  Detalhes: {
+    screen: DetalhesRoupa,
     navigationOptions: ({ navigation }) => ({
       title: 'Detalhes da roupa',
       headerStyle: {
@@ -138,8 +138,8 @@ const Entregas = createStackNavigator({
       headerTintColor: '#fff',
     }),
   },
-  Details: {
-    screen: DetailsScreen,
+  Detalhes: {
+    screen: DetalhesRoupa,
     navigationOptions: ({ navigation }) => ({
       title: 'Detalhes da roupa',
       headerStyle: {

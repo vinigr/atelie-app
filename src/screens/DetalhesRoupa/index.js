@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
 import {
-  StyleSheet,
   Text,
   View,
-  Button,
-  TouchableOpacity,
-  Image,
   FlatList,
   CheckBox,
 } from 'react-native';
-import { DetailsTitulo, AjustesRoupaView } from '../styles/styled';
+import { DetailsTitulo, AjustesRoupaView } from '../../styles/styled';
 
-class DetailsScreen extends Component {
+class DetalhesRoupa extends Component {
   // static navigationOptions =
   // {
   //     title: 'DETALHES DO PEDIDO',
@@ -68,8 +63,4 @@ class DetailsScreen extends Component {
   }
 }
 
-// const mapStateToProps = state => ({
-//   data: state.roupas.data
-// });
-
-export default connect(null)(DetailsScreen);
+export default DetalhesRoupa;
