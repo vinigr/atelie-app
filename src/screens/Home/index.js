@@ -25,7 +25,7 @@ class HomeScreen extends Component {
             // console.log(item)
             // <Text>{item.name}</Text>
             <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('Details', { item })
+              onPress={() => this.props.navigation.navigate('Detalhes', { item })
               }
             >
               <View style={styles.roupaTouchable}>

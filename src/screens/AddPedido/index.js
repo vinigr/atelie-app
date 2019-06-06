@@ -52,7 +52,7 @@ export default class AddPedido extends Component {
           datarecebimento,
         }).then((res) => {
           this.setState({ loading: false });
-          this.props.navigation.navigate('PedidoRoupas', { itemId: res.data[0].idpedido });
+          this.props.navigation.navigate('PedidoRoupas', { itemId: res.data[0].idpedido, clienteId: idcliente });
         });
       } catch (err) {
         this.setState({ erro: err.data.error, loading: false });

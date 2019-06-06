@@ -29,11 +29,14 @@ export default class PedidoRoupas extends Component {
     err: null,
     loading: true,
     idpedido: null,
+    idcliente: null,
     roupas: [],
   };
 
   async componentDidMount() {
     const { navigation } = this.props;
+    const idcliente = navigation.getParam('clienteId');
+    this.setState({ idcliente });
     if (navigation.getParam('itemId')) {
       const idpedido = navigation.getParam('itemId');
       this.setState({ idpedido });
