@@ -52,7 +52,6 @@ export default class Pedidos extends Component {
               )}
               refreshControl={(
                 <RefreshControl
-                  colors={['green']}
                   refreshing={this.state.refreshing}
                   onRefresh={() => this.onRefresh()}
                 />
