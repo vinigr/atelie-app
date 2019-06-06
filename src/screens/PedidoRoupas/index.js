@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   FlatList,
+  RefreshControl,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from './styles';
@@ -31,6 +32,7 @@ export default class PedidoRoupas extends Component {
     idpedido: null,
     idcliente: null,
     roupas: [],
+    refreshing: false,
   };
 
   async componentDidMount() {
@@ -57,6 +59,11 @@ export default class PedidoRoupas extends Component {
     }
   };
 
+  onRefresh = () => {
+    this.setState({ refreshing: true });
+    this.buscaBanco().then(() => this.setState({ refreshing: false }));
+  }
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -68,12 +75,18 @@ export default class PedidoRoupas extends Component {
               data={this.state.roupas}
               keyExtractor={item => `${item.idroupa}`}
               renderItem={({ item }) => (
-                <TouchableOpacity>
-                  <View style={styles.pedidoTouchable}>
+                <TouchableOpacity onPress={() => this.props.navigation.push('Detalhes', { roupaId: item.idroupa })}>
+                  <View style={styles.roupaTouchable}>
                     {/* <TextTitulo>#{item.idpedido}</TextTitulo> */}
                     <Text>{item.observacao}</Text>
                   </View>
                 </TouchableOpacity>
+              )}
+              refreshControl={(
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={() => this.onRefresh()}
+                />
               )}
             />
             <TouchableOpacity
