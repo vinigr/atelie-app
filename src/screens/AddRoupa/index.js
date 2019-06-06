@@ -18,12 +18,14 @@ class AddRoupa extends Component {
 
     this.state = {
       loading: true,
+      idpedido: null,
       roupaSelecionada: null,
       isActiveAjuste: [],
       roupas: [],
       ajustes: [],
       prazoEntrega: null,
       observacoes: '',
+      err: null,
     };
   }
 
@@ -31,6 +33,7 @@ class AddRoupa extends Component {
     this.buscaBanco();
     const { navigation } = this.props;
     const itemId = navigation.getParam('pedidoId');
+    this.setState({ idpedido: itemId });
   }
 
   buscaBanco = async () => {
@@ -38,7 +41,7 @@ class AddRoupa extends Component {
       const res = await api.get('tipoRoupa/listagem');
       this.setState({ roupas: res.data, loading: false });
     } catch (err) {
-      this.setState({ erro: err.data.error, loading: false });
+      this.setState({ err: err.data.error, loading: false });
     }
   };
 
@@ -47,7 +50,7 @@ class AddRoupa extends Component {
       const res = await api.get(`preco/listagemRoupa/${id}`);
       this.setState({ ajustes: res.data });
     } catch (err) {
-      this.setState({ erro: err.data.error, loading: false });
+      this.setState({ err: err.data.error, loading: false });
     }
   };
 
@@ -100,8 +103,23 @@ class AddRoupa extends Component {
     </TouchableOpacity>
   );
 
-  cadastrarPedido = () => {
-    console.tron.log(this.state);
+  cadastrarPedido = async () => {
+    const {
+      idpedido, roupaSelecionada, isActiveAjuste, observacoes, prazoEntrega,
+    } = this.state;
+    try {
+      this.setState({ loading: true });
+      await api.post('roupa/cadastrarAjustes', {
+        idpedido,
+        roupaSelecionada,
+        observacoes,
+        prazoEntrega,
+        isActiveAjuste,
+      });
+      this.props.navigation.goBack();
+    } catch (err) {
+      this.setState({ err: err.data.error, loading: false });
+    }
   };
 
   render() {
