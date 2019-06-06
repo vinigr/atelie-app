@@ -41,8 +41,8 @@ const TelaInicial = createStackNavigator({
       headerLeft: <HamburgerIcon navigationProps={navigation} />,
       headerStyle: {
         backgroundColor: '#2699FB',
-        elevation: 0, // remove shadow on Android
-        shadowOpacity: 0, // remove shadow on iOS
+        elevation: 0,
+        shadowOpacity: 0,
         color: '#000',
         // marginLeft: 'auto',
         // marginRight: 'auto',
@@ -55,9 +55,9 @@ const TelaInicial = createStackNavigator({
     navigationOptions: ({ navigation }) => ({
       title: 'Detalhes da roupa',
       headerStyle: {
-        backgroundColor: '#E6F4FF',
-        elevation: 0, // remove shadow on Android
-        shadowOpacity: 0, // remove shadow on iOS
+        backgroundColor: '#2699FB',
+        elevation: 0,
+        shadowOpacity: 0,
         color: '#000',
         // paddingTop: 5
       },
@@ -86,13 +86,27 @@ const PedidosLista = createStackNavigator({
     navigationOptions: ({ navigation }) => ({
       headerStyle: {
         backgroundColor: '#2699FB',
-        elevation: 0, // remove shadow on Android
-        shadowOpacity: 0, // remove shadow on iOS
+        elevation: 0,
+        shadowOpacity: 0,
+        marginBottom: 5,
       },
       headerTintColor: '#fff',
     }),
   },
-
+  Detalhes: {
+    screen: DetalhesRoupa,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Detalhes da roupa',
+      headerStyle: {
+        backgroundColor: '#2699FB',
+        elevation: 0,
+        shadowOpacity: 0,
+        color: '#000',
+        // paddingTop: 5
+      },
+      headerTintColor: '#fff',
+    }),
+  },
   AddRoupa: {
     screen: AddRoupaScreen,
     navigationOptions: ({ navigation }) => ({
