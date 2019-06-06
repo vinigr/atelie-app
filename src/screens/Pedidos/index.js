@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Text, View, FlatList, ActivityIndicator, TouchableOpacity,
+  Text, View, FlatList, ActivityIndicator, TouchableOpacity, RefreshControl,
 } from 'react-native';
 import { TextTitulo } from '../../styles/styled';
 import api from '../../services/api';
@@ -11,6 +11,7 @@ export default class Pedidos extends Component {
   state={
     pedidos: [],
     loading: true,
+    refreshing: false,
     erro: '',
   }
 
@@ -27,6 +28,11 @@ export default class Pedidos extends Component {
     }
   }
 
+  onRefresh = () => {
+    this.setState({ refreshing: true });
+    this.buscaBanco().then(() => this.setState({ refreshing: false }));
+  }
+
   render() {
     return (
       <View>
@@ -37,13 +43,20 @@ export default class Pedidos extends Component {
               data={this.state.pedidos}
               keyExtractor={item => `${item.idpedido}`}
               renderItem={({ item }) => (
-                <TouchableOpacity onPress={() => this.props.navigation.push('PedidoRoupas', { pedidoId: item.idpedido })}>
+                <TouchableOpacity onPress={() => this.props.navigation.push('PedidoRoupas', { pedidoId: item.idpedido, clienteId: item.idcliente })}>
                   <View style={styles.pedidoTouchable}>
                     <TextTitulo>#{item.idpedido}</TextTitulo>
                     <Text>{item.nomecliente}</Text>
                   </View>
                 </TouchableOpacity>
               )}
+              refreshControl={(
+                <RefreshControl
+                  colors={['green']}
+                  refreshing={this.state.refreshing}
+                  onRefresh={() => this.onRefresh()}
+                />
+)}
             />
           )
         }
