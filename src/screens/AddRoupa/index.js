@@ -19,6 +19,7 @@ class AddRoupa extends Component {
     this.state = {
       loading: true,
       idpedido: null,
+      idcliente: null,
       roupaSelecionada: null,
       isActiveAjuste: [],
       roupas: [],
@@ -32,8 +33,9 @@ class AddRoupa extends Component {
   componentDidMount() {
     this.buscaBanco();
     const { navigation } = this.props;
-    const itemId = navigation.getParam('pedidoId');
-    this.setState({ idpedido: itemId });
+    const pedidoId = navigation.getParam('pedidoId');
+    const clienteId = navigation.getParam('clienteId');
+    this.setState({ idpedido: pedidoId, idcliente: clienteId });
   }
 
   buscaBanco = async () => {
@@ -49,6 +51,26 @@ class AddRoupa extends Component {
     try {
       const res = await api.get(`preco/listagemRoupa/${id}`);
       this.setState({ ajustes: res.data });
+    } catch (err) {
+      this.setState({ err: err.data.error, loading: false });
+    }
+  };
+
+  cadastrarPedido = async () => {
+    const {
+      idpedido, idcliente, roupaSelecionada, isActiveAjuste, observacoes, prazoEntrega,
+    } = this.state;
+    try {
+      this.setState({ loading: true });
+      await api.post('roupa/cadastrarAjustes', {
+        idpedido,
+        idcliente,
+        roupaSelecionada,
+        observacoes,
+        prazoEntrega,
+        isActiveAjuste,
+      });
+      this.props.navigation.goBack();
     } catch (err) {
       this.setState({ err: err.data.error, loading: false });
     }
@@ -103,28 +125,10 @@ class AddRoupa extends Component {
     </TouchableOpacity>
   );
 
-  cadastrarPedido = async () => {
-    const {
-      idpedido, roupaSelecionada, isActiveAjuste, observacoes, prazoEntrega,
-    } = this.state;
-    try {
-      this.setState({ loading: true });
-      await api.post('roupa/cadastrarAjustes', {
-        idpedido,
-        roupaSelecionada,
-        observacoes,
-        prazoEntrega,
-        isActiveAjuste,
-      });
-      this.props.navigation.goBack();
-    } catch (err) {
-      this.setState({ err: err.data.error, loading: false });
-    }
-  };
-
   render() {
+    console.tron.log(`${this.state.idpedido}Cliente: ${this.state.idcliente}`);
     return (
-      <View style={{ flex: 1, backgroundColor: '#fff' }}>
+      <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
         {this.state.loading ? (
           <ActivityIndicator />
         ) : (
@@ -221,7 +225,7 @@ class AddRoupa extends Component {
             </TouchableOpacity>
           </>
         )}
-      </View>
+      </ScrollView>
     );
   }
 }
