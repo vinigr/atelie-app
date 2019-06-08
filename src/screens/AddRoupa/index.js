@@ -126,7 +126,6 @@ class AddRoupa extends Component {
   );
 
   render() {
-    console.tron.log(`${this.state.idpedido}Cliente: ${this.state.idcliente}`);
     return (
       <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
         {this.state.loading ? (

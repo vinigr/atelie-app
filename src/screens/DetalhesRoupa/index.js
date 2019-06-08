@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import {
   Text,
   View,
-  FlatList,
-  CheckBox,
+  Alert,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 import { DetailsTitulo } from '../../styles/styled';
 import styles from './styles';
@@ -19,6 +19,7 @@ export default class DetalhesRoupa extends Component {
     idRoupa: null,
     roupa: [],
     err: null,
+    modalVisible: false,
   };
 
   async componentDidMount() {
@@ -27,7 +28,6 @@ export default class DetalhesRoupa extends Component {
     await this.setState({ idRoupa: roupaId });
     this.buscaBanco();
   }
-
 
   buscaBanco = async () => {
     try {
@@ -38,6 +38,45 @@ export default class DetalhesRoupa extends Component {
     }
   }
 
+  buttonClickded = () => {
+    Alert.alert(
+      'Alert Title',
+      'Alert Msg',
+      [
+        { text: 'Later', onPress: () => console.log('later pressed') },
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'OK', onPress: () => console.log('OK Pressed') },
+      ],
+      { cancelable: false },
+    );
+  };
+
+  renderAjustes = (ajuste) => {
+    if (ajuste.datafinalizacao === null) {
+      return (
+        <TouchableOpacity
+          style={styles.ajustePendente}
+          key={`${ajuste.idajuste}`}
+          onPress={ajuste => this.buttonClickded(ajuste)}
+        >
+          <Text>{ajuste.nometipoajuste}</Text>
+        </TouchableOpacity>
+      );
+    }
+    return (
+      <TouchableOpacity
+        style={{ backgroundColor: 'green' }}
+        key={`${ajuste.idajuste}`}
+      >
+        <Text>{ajuste.nometipoajuste}</Text>
+      </TouchableOpacity>
+    );
+  }
+
   render() {
     const { roupa } = this.state;
     return (
@@ -46,25 +85,13 @@ export default class DetalhesRoupa extends Component {
           : (
             <View style={styles.container}>
               <DetailsTitulo>{roupa.nomeroupa}</DetailsTitulo>
-              <Text style={{ fontSize: 20 }}>Cliente:{roupa.nomecliente}</Text>
-              <View style={{ flex: 1, justifyContent: 'center', maxHeight: 150 }}>
-                <Text>Ajustes</Text>
-                {/* <FlatList
-                  data={roupas.ajustes}
-                  style={{}}
-                  keyExtractor={item => item.id}
-                  renderItem={({ item }) => (
-                    <View
-                      style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}
-                    >
-                      <CheckBox value={item.concluido} />
-                      <Text>{item.name}</Text>
-                    </View>
-                  )}
-                /> */}
+              <View style={styles.cliente}>
+                <Text style={{ fontSize: 20 }}>Cliente:{roupa.nomecliente}</Text>
               </View>
-              <View>
-                <Text>Observações</Text>
+              <Text style={styles.text}>Ajustes</Text>
+              { roupa.ajustes.map(this.renderAjustes)}
+              <View style={styles.observacao}>
+                <Text style={styles.text}>Observações</Text>
                 <Text>{roupa.observacao}</Text>
               </View>
             </View>
