@@ -20,6 +20,7 @@ export default class CadastroClientes extends Component {
     erro: {
       cliente: false,
     },
+    err: null,
     aguardando: false,
   }
 
@@ -40,13 +41,12 @@ export default class CadastroClientes extends Component {
       cidade,
       telefone,
     }).then((res) => {
-      console.tron.log(res.data.response);
       this.setState({
         cliente: '',
         endereco: '',
         cidade: '',
         telefone: '',
-        estado: '',
+        estado: 'BA',
         cpf: '',
         erro: {
           cliente: false,
@@ -54,8 +54,7 @@ export default class CadastroClientes extends Component {
         aguardando: false,
       });
     }).catch((err) => {
-      this.setState({ aguardando: false });
-      console.tron.log(err);
+      this.setState({ err: err.data.err, aguardando: false });
     });
   }
 
@@ -65,6 +64,7 @@ export default class CadastroClientes extends Component {
     } = this.state;
     return (
       <ScrollView style={styles.container}>
+        {this.state.err && <Text>{this.state.err}</Text>}
         <View style={styles.containerInput}>
           <Text>Cliente</Text>
           <TextInput
