@@ -55,7 +55,7 @@ export default class Pedidos extends Component {
                   refreshing={this.state.refreshing}
                   onRefresh={() => this.onRefresh()}
                 />
-)}
+              )}
             />
           )
         }

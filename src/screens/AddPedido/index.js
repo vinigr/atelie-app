@@ -39,7 +39,11 @@ export default class AddPedido extends Component {
 
     cadastrarPedido = async () => {
       const { idcliente, idloja, datarecebimento } = this.state;
-      if (!idcliente, !idloja, !datarecebimento) return;
+
+      if (!idcliente || idcliente === -1 || idloja === -1 || !idloja || !datarecebimento) {
+        this.setState({ err: 'Dados incompletos' });
+        return;
+      }
 
 
       this.setState({ loading: true });
@@ -73,6 +77,7 @@ export default class AddPedido extends Component {
     render() {
       const View1 = (
         <View>
+          {this.state.err && <Text style={{ color: 'red' }}>{this.state.err}</Text>}
           <View>
             <Text>Cliente</Text>
             <Picker
@@ -81,6 +86,7 @@ export default class AddPedido extends Component {
                 this.setState({ idcliente: itemValue });
               }}
             >
+              <Picker.Item key={-1} label="" value={-1} />
               { this.state.clientes.map(cliente => (
                 <Picker.Item key={cliente.idcliente} label={cliente.nomecliente} value={cliente.idcliente} />
               ))}
@@ -95,6 +101,8 @@ export default class AddPedido extends Component {
               }}
               placeHolderText="Selecione"
             >
+
+              <Picker.Item label="" value={-1} />
               { this.state.empresas.map(empresa => (
                 <Picker.Item key={empresa.idloja} label={empresa.nomeloja} value={empresa.idloja} />
               ))}

@@ -53,6 +53,7 @@ export const DetailsTitulo = styled.Text`
   color: #000;
   margin-left: auto;
   margin-right: auto;
+  font-family: 'OpenSans-Semibold';
 `;
 
 export const AjustesRoupaView = styled.View`

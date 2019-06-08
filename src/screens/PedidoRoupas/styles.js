@@ -1,6 +1,10 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
+  title: {
+    fontSize: 25,
+    fontFamily: 'OpenSans-Semibold',
+  },
   button: {
     justifyContent: 'center',
     alignItems: 'center',
