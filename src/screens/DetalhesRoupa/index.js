@@ -103,7 +103,7 @@ export default class DetalhesRoupa extends Component {
               {this.state.err && <Text>{this.state.err}</Text>}
               <DetailsTitulo>{roupa.nomeroupa}</DetailsTitulo>
               <View style={styles.cliente}>
-                <Text style={{ fontSize: 20 }}>Cliente:{roupa.nomecliente}</Text>
+                <Text style={{ fontSize: 20 }}>Cliente: {roupa.nomecliente}</Text>
               </View>
               <Text style={styles.text}>Ajustes</Text>
               { roupa.ajustes.map(this.renderAjustes)}
