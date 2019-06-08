@@ -19,7 +19,8 @@ import styles from './styles';
 
 import HomeScreen from '../screens/Home';
 import DetalhesRoupa from '../screens/DetalhesRoupa';
-import EntregasPendentesScreen from '../screens/EntregasPendentes';
+import EntregasPendentes from '../screens/EntregasPendentes';
+import DetalhesEntrega from '../screens/DetalhesEntrega';
 import AddRoupaScreen from '../screens/AddRoupa';
 import CadastroClientesScreen from '../screens/CadastroClientes';
 import AddPedido from '../screens/AddPedido';
@@ -102,7 +103,6 @@ const PedidosLista = createStackNavigator({
     screen: AddRoupaScreen,
     navigationOptions: ({ navigation }) => ({
       title: 'Roupa',
-      // headerLeft: <HamburgerIcon navigationProps={navigation} />,
       headerStyle: {
         backgroundColor: '#2699FB',
         elevation: 0, // remove shadow on Android
@@ -131,7 +131,7 @@ const CadastroPedidos = createStackNavigator({
 
 const Entregas = createStackNavigator({
   Entregas: {
-    screen: EntregasPendentesScreen,
+    screen: EntregasPendentes,
     navigationOptions: ({ navigation }) => ({
       title: 'Entregas Pendentes',
       headerLeft: <HamburgerIcon navigationProps={navigation} />,
@@ -139,20 +139,20 @@ const Entregas = createStackNavigator({
         backgroundColor: '#2699FB',
         elevation: 0,
         shadowOpacity: 0,
+        marginBottom: 5,
       },
       headerTintColor: '#fff',
     }),
   },
-  Detalhes: {
-    screen: DetalhesRoupa,
+  DetalhesEntrega: {
+    screen: DetalhesEntrega,
     navigationOptions: ({ navigation }) => ({
-      title: 'Detalhes da roupa',
+      title: 'Detalhes da entrega',
       headerStyle: {
-        backgroundColor: '#E6F4FF',
+        backgroundColor: '#2699FB',
         elevation: 0,
         shadowOpacity: 0,
-        color: '#fff',
-        // paddingTop: 5
+        marginBottom: 5,
       },
       headerTintColor: '#fff',
     }),
