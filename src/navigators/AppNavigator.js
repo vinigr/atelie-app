@@ -33,21 +33,14 @@ const TelaInicial = createStackNavigator({
     screen: HomeScreen,
     navigationOptions: ({ navigation }) => ({
       title: 'Roupas',
-      headerTitleStyle: {
-        alignSelf: 'center',
-        textAlign: 'center',
-        flex: 1,
-      },
       headerLeft: <HamburgerIcon navigationProps={navigation} />,
       headerStyle: {
         backgroundColor: '#2699FB',
         elevation: 0,
         shadowOpacity: 0,
-        color: '#000',
-        // marginLeft: 'auto',
-        // marginRight: 'auto',
         marginBottom: 5,
       },
+      headerTintColor: '#fff',
     }),
   },
   Detalhes: {
@@ -58,8 +51,7 @@ const TelaInicial = createStackNavigator({
         backgroundColor: '#2699FB',
         elevation: 0,
         shadowOpacity: 0,
-        color: '#000',
-        // paddingTop: 5
+        marginBottom: 5,
       },
       headerTintColor: '#fff',
     }),
@@ -102,7 +94,6 @@ const PedidosLista = createStackNavigator({
         elevation: 0,
         shadowOpacity: 0,
         color: '#000',
-        // paddingTop: 5
       },
       headerTintColor: '#fff',
     }),
