@@ -7,6 +7,11 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
+import {
+  SCLAlert,
+  SCLAlertButton,
+} from 'react-native-scl-alert';
+
 import { DetailsTitulo } from '../../styles/styled';
 import styles from './styles';
 
@@ -18,8 +23,10 @@ export default class DetalhesRoupa extends Component {
     loading: true,
     idRoupa: null,
     roupa: [],
-    err: null,
-    modalVisible: false,
+    err: false,
+    show: false,
+    costureiras: [],
+    idajuste: null,
   };
 
   async componentDidMount() {
@@ -32,28 +39,12 @@ export default class DetalhesRoupa extends Component {
   buscaBanco = async () => {
     try {
       const res = await api.get(`/roupa/mostrar/${this.state.idRoupa}`);
-      this.setState({ roupa: res.data, loading: false });
+      const costureiras = await api.get('/costureira/listagem');
+      this.setState({ roupa: res.data, costureiras: costureiras.data, loading: false });
     } catch (err) {
       this.setState({ err: err.data.err, loading: false });
     }
   }
-
-  buttonClickded = () => {
-    Alert.alert(
-      'Alert Title',
-      'Alert Msg',
-      [
-        { text: 'Later', onPress: () => console.log('later pressed') },
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-        { text: 'OK', onPress: () => console.log('OK Pressed') },
-      ],
-      { cancelable: false },
-    );
-  };
 
   renderAjustes = (ajuste) => {
     if (ajuste.datafinalizacao === null) {
@@ -61,7 +52,7 @@ export default class DetalhesRoupa extends Component {
         <TouchableOpacity
           style={styles.ajustePendente}
           key={`${ajuste.idajuste}`}
-          onPress={ajuste => this.buttonClickded(ajuste)}
+          onPress={() => this.handleOpen(ajuste.idajuste)}
         >
           <Text>{ajuste.nometipoajuste}</Text>
         </TouchableOpacity>
@@ -69,12 +60,37 @@ export default class DetalhesRoupa extends Component {
     }
     return (
       <TouchableOpacity
-        style={{ backgroundColor: 'green' }}
+        style={styles.ajusteConcluido}
         key={`${ajuste.idajuste}`}
       >
         <Text>{ajuste.nometipoajuste}</Text>
       </TouchableOpacity>
     );
+  }
+
+  concluirAjuste = async (idcostureira) => {
+    const { idajuste, idRoupa } = this.state;
+
+    api.put(`/ajuste/atualizar/${idajuste}`, {
+      idcostureiraresponsavel: idcostureira,
+      idroupa: idRoupa,
+      datafinalizacao: new Date().toISOString(),
+    }).then((res) => {
+      this.setState({ err: false });
+      this.buscaBanco();
+    }).catch((err) => {
+      this.setState({ err: 'Erro ao concluir ajuste' });
+    });
+
+    this.handleClose();
+  }
+
+  handleOpen = (idajuste) => {
+    this.setState({ idajuste, show: true });
+  }
+
+  handleClose = () => {
+    this.setState({ show: false });
   }
 
   render() {
@@ -84,6 +100,7 @@ export default class DetalhesRoupa extends Component {
         { this.state.loading ? <ActivityIndicator />
           : (
             <View style={styles.container}>
+              {this.state.err && <Text>{this.state.err}</Text>}
               <DetailsTitulo>{roupa.nomeroupa}</DetailsTitulo>
               <View style={styles.cliente}>
                 <Text style={{ fontSize: 20 }}>Cliente:{roupa.nomecliente}</Text>
@@ -94,6 +111,24 @@ export default class DetalhesRoupa extends Component {
                 <Text style={styles.text}>Observações</Text>
                 <Text>{roupa.observacao}</Text>
               </View>
+              <SCLAlert
+                theme="success"
+                show={this.state.show}
+                title="Concluir"
+                subtitle="Quem realizou o ajuste?"
+                onRequestClose={() => this.handleClose()}
+              >
+                { this.state.costureiras.map(costureira => (
+                  <SCLAlertButton
+                    key={costureira.idcostureiraresponsavel}
+                    theme="success"
+                    onPress={() => this.concluirAjuste(costureira.idcostureiraresponsavel)}
+                  >
+                    {costureira.nomeresponsavel}
+                  </SCLAlertButton>
+                ))}
+                <SCLAlertButton theme="danger" onPress={() => this.handleClose()}>Cancelar</SCLAlertButton>
+              </SCLAlert>
             </View>
           )
         }
