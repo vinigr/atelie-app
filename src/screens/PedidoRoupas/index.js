@@ -8,10 +8,12 @@ import {
   RefreshControl,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import date from 'date-fns/difference_in_days';
+import formatData from 'date-fns/format';
 import styles from './styles';
 
 import api from '../../services/api';
-
 
 export default class PedidoRoupas extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -33,6 +35,7 @@ export default class PedidoRoupas extends Component {
     idcliente: null,
     roupas: [],
     refreshing: false,
+    preco: null,
   };
 
   async componentDidMount() {
@@ -53,7 +56,7 @@ export default class PedidoRoupas extends Component {
   buscaBanco = async () => {
     try {
       const res = await api.get(`/roupa/listagemPedido/${this.state.idpedido}`);
-      this.setState({ roupas: res.data, loading: false });
+      this.setState({ roupas: res.data.roupas, preco: res.data.preco, loading: false });
     } catch (err) {
       this.setState({ err, loading: false });
     }
@@ -62,6 +65,26 @@ export default class PedidoRoupas extends Component {
   onRefresh = () => {
     this.setState({ refreshing: true });
     this.buscaBanco().then(() => this.setState({ refreshing: false }));
+  }
+
+  renderData = (data) => {
+    const resp = date(
+      data,
+      Date(),
+    );
+
+    const dataformat = formatData(
+      data,
+      'DD/MM/YYYY',
+    );
+
+
+    if (resp <= 3) {
+      return (
+        <Text style={{ color: 'red' }}>{dataformat}</Text>
+      );
+    }
+    return <Text>{dataformat}</Text>;
   }
 
   render() {
@@ -78,7 +101,17 @@ export default class PedidoRoupas extends Component {
                 <TouchableOpacity onPress={() => this.props.navigation.push('Detalhes', { roupaId: item.idroupa })}>
                   <View style={styles.roupaTouchable}>
                     {/* <TextTitulo>#{item.idpedido}</TextTitulo> */}
-                    <Text>{item.observacao}</Text>
+                    <Text style={styles.title}>{item.nomeroupa}</Text>
+                    <View
+                      style={{
+                        flex: 1,
+                        marginBottom: 'auto',
+                        alignItems: 'flex-end',
+                      }}
+                    >
+                      <Text>Prazo</Text>
+                      {this.renderData(item.dataprevista)}
+                    </View>
                   </View>
                 </TouchableOpacity>
               )}
@@ -93,6 +126,7 @@ export default class PedidoRoupas extends Component {
               style={styles.button}
               onPress={() => this.props.navigation.navigate('AddRoupa', {
                 pedidoId: this.state.idpedido,
+                clienteId: this.state.idcliente,
               })
               }
             >
